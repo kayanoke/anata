@@ -8,6 +8,14 @@ startsS.py → コマンドプロンプトからファイル名を指定して�
 main.py → 実行するとアイコンが6種表示されます。アイコンクリックするとstartsS.pyを起動します。
           再度クリックすると起動したstartsS.pyを停止します。
 
+必要ライブラリ
+pip install playsound
+pip install pyautogui
+pip install opencv-python
+pip install pyperclip
+pip install schedule
+
+
 い　クリック・ダブルクリック・右クリック・マウス移動・マウスドラッグ
     name / image / accuracy / moveclickposition / stoptime /
     (click|dclick|rclick|move|drag)/★.png/accuracy=0.8/movepin=12,12/stop=1/
