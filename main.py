@@ -77,7 +77,9 @@ canvas.place(x=0,y=0)
 # loop with iconnnum
 for i in range(iconnum):
     onofflist.append(0)
-    imgimlist.append(Image.open(iconPath+str(i+1)+'.png')) 
+    img = Image.open(iconPath+str(i+1)+'.png')
+    img = img.resize((iconsize, iconsize))
+    imgimlist.append(img) 
     imgimlist[i] = ImageTk.PhotoImage(imgimlist[i])
     canvas.create_image(iconsize*i,0,image=imgimlist[i],anchor=tkinter.NW)
     proclist.append(0)
@@ -111,7 +113,7 @@ checks.add_radiobutton(label='Check 5',variable=check,value=5)
 checks.add_radiobutton(label='Check 6',variable=check,value=6)
 
 screenwidth, screenheight = pyautogui.size()
-windowxposition = screenwidth - imgwidth
+windowxposition = screenwidth - imgwidth - 15
 windowyposition = screenheight - iconsize - 115
 windowheight = iconnum + 58
 # set window size and position
