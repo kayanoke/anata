@@ -1,0 +1,2 @@
+click/kokoku.png/
+click/kokoku2.png/pause=5/
