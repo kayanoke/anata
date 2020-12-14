@@ -18,20 +18,19 @@ import threading
 import pyperclip
 # random
 import random
-
-# reference folder path
-iconPath = 'icon/'
-soundPath = 'sound/'
-imagePath = 'image/'
-textPath = 'text/'
+# init config
+import configparser
 
 # click operation
 #(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/movepin=12,12/pause=1/
 def clickS(textlist):
+    # global value
+    global paustim
+    global accurcy
     # initialize dafault parameter
-    conf = 0.8
+    conf = accurcy
     movepinx, movepiny = 0, 0
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -46,10 +45,10 @@ def clickS(textlist):
         if datalist[0] == 'pause':
             pausetime = int(datalist[1])
     # locate target position on screen
-    target = pyautogui.locateOnScreen(imagePath+textlist[1],confidence=conf)
+    target = pyautogui.locateOnScreen(imgpath+textlist[1],confidence=conf)
     # if target is none, end
     if target is None:
-        setLog(textlist[1]+' is nai')
+        setLog(textlist[1]+' ga nai')
         time.sleep(pausetime)
         return
     # target center position
@@ -81,11 +80,14 @@ def clickS(textlist):
 # position click operation
 #(pclick|pdclick|prclick|pmove|pdrag/zclick)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
 def pclickS(textlist):
+    # global value
+    global paustim
+    global accurcy
     # initialize dafault parameter
-    conf = 0.8
+    conf = accurcy
     x, y = 0, 0
     xmax, xmin, ymax, ymin = 0, 0, 0, 0
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -136,20 +138,26 @@ def pclickS(textlist):
     time.sleep(pausetime)
 
 # typing operation
-#(typing|press|keydown|keyup)/hello/pause=1/
+#(typing|press|keydown|keyup|hotkey)/hello/pause=1/
 def typingS(textlist):
+    # global value
+    global paustim
     # initialize default parameter
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
         # pause
         if datalist[0] == 'pause':
             pausetime = int(datalist[1])
+    textlist[1] = textlist[1].replace('[sla]', '/')
     # input to screen
     # keyboard typing
     if textlist[0] == 'typing':
-        pyautogui.typewrite(textlist[1])
+        tmp = pyperclip.paste()
+        pyperclip.copy(textlist[1])
+        pyautogui.hotkey('ctrl','v')
+        pyperclip.copy(tmp)
     # press one key
     if textlist[0] == 'press':
         pyautogui.press(textlist[1])
@@ -159,9 +167,11 @@ def typingS(textlist):
     # key up one key
     if textlist[0] == 'keyup':
         pyautogui.keyUp(textlist[1])
+    if textlist[0] == 'hotkey':
+        pyautogui.hotkey(textlist[1],textlist[2])
 
     # postprocessing
-    setLog(textlist[1]+' wo typing')
+    setLog(textlist[1]+' wo nyuuryoku')
     soundasync(textlist[0]+'.wav')
     time.sleep(pausetime)
 
@@ -172,7 +182,7 @@ def pauseS(textlist):
     time.sleep(int(textlist[1]))
 
     # postprocessing
-    setLog(textlist[1]+' byou pause')
+    setLog(textlist[1]+' byou tomaru')
     soundasync(textlist[0]+'.wav')
 
 # end operation
@@ -180,8 +190,9 @@ def pauseS(textlist):
 def endS(textlist):
     # global value
     global flg
+    global accurcy
     # initialize dafault parameter
-    conf = 0.8
+    conf = accurcy
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -213,8 +224,10 @@ def endS(textlist):
 # execute application operation
 #run/C:\\appli\aplli.bat/sync=(True|False)/pause=5/
 def runS(textlist):
+    # global value
+    global paustim
     # initialize dafault parameter
-    pausetime = 0
+    pausetime = paustim
     sync = False
     # initialize option parameter
     for text in textlist:
@@ -226,7 +239,7 @@ def runS(textlist):
         if datalist[0] == 'sync':
             if datalist[1] == 'True':
                 sync = True
-    setLog(textlist[1] + ' wo running')
+    setLog(textlist[1] + ' wo kidou')
     soundasync(textlist[0]+'.wav')
     # run application
     if sync == True:
@@ -242,8 +255,10 @@ def runS(textlist):
 # file operation
 #(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/1.txt/pause=5/
 def fileS(textlist):
+    # global value
+    global paustim
     # initialize dafault parameter
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -306,8 +321,10 @@ def fileS(textlist):
 # folder operation
 #(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/1.txt/pause=5/
 def folderS(textlist):
+    # global value
+    global paustim
     # initialize dafault parameter
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -378,8 +395,9 @@ def ifS(textlist):
 def ifimgS(textlist):
     # global value
     global skillidx
+    global accurcy
     # initialize dafault parameter
-    conf = 0.8
+    conf = accurcy
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -387,7 +405,7 @@ def ifimgS(textlist):
         if datalist[0] == 'accuracy':
             conf = float(datalist[1])
     # locate target position on screen
-    target = pyautogui.locateOnScreen(imagePath+textlist[1],confidence=conf)
+    target = pyautogui.locateOnScreen(imgpath+textlist[1],confidence=conf)
     # if target is there, go to 1, else go to 2
     if target is None:
         soundasync('bunkiF.wav')
@@ -427,8 +445,9 @@ def forS(textlist):
 def forimgS(textlist):
     # global value
     global txtlist
+    global accurcy
     # initialize dafault parameter
-    conf = 0.8
+    conf = accurcy
     out = False
     # initialize option parameter
     for text in textlist:
@@ -451,7 +470,7 @@ def forimgS(textlist):
         if datalist[0] == 'accuracy':
             conf = datalist[1]
         # locate target position on screen
-        target = pyautogui.locateOnScreen(imagePath+textlist[1],confidence=conf)
+        target = pyautogui.locateOnScreen(imgpath+textlist[1],confidence=conf)
         # if target is there and out is True, go to loop
         # if target is nothing and out is False, go to loop
         if (target is None and out == True) or (target is not None and out == False):
@@ -464,8 +483,10 @@ def forimgS(textlist):
 
 # clipboard operation
 def clipS(textlist):
+    # global value
+    global paustim
     # initialize dafault parameter
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -477,7 +498,7 @@ def clipS(textlist):
         pyperclip.copy(textlist[1])
     # paste with keyboard typing
     if textlist[0] == 'cpaste':
-        pyautogui.typewrite(pyperclip.paste())
+        pyautogui.hotkey('ctrl','v')
 
     # postprocessing
     soundasync(textlist[0]+'.wav')
@@ -486,10 +507,13 @@ def clipS(textlist):
 # clipboard operation
 #untill/★.png/out=True/accuracy=0.8/pause=1/
 def untillS(textlist):
+    # global value
+    global paustim
+    global accurcy
     # initialize dafault parameter
-    conf = 0.8
+    conf = accurcy
     out = False
-    pausetime = 0
+    pausetime = paustim
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -506,7 +530,7 @@ def untillS(textlist):
             pausetime = int(datalist[1])
     while True:
         # locate target position on screen
-        target = pyautogui.locateOnScreen(imagePath+textlist[1],confidence=conf)
+        target = pyautogui.locateOnScreen(imgpath+textlist[1],confidence=conf)
         # if target is there and out is True, go to next
         # if target is nothing and out is False, go to next
         if target is None and out == True:
@@ -516,6 +540,31 @@ def untillS(textlist):
             setLog(textlist[1]+' is displayed')
             break
         time.sleep(pausetime)
+# scroll operation
+#(scrollup|scrolldown)/5/pause=1/
+def scrollS(textlist):
+    # global value
+    global paustim
+    # initialize dafault parameter
+    pausetime = paustim
+    # initialize option parameter
+    for text in textlist:
+        datalist = text.split('=')
+        # pause
+        if datalist[0] == 'pause':
+            pausetime = int(datalist[1])
+    if textlist[0] == 'scrollup':
+        pyautogui.vscroll(100*int(textlist[1]))
+    if textlist[0] == 'scrolldown':
+        pyautogui.vscroll(-100*int(textlist[1]))
+    if textlist[0] == 'scrollleft':
+        pyautogui.hscroll(-100*int(textlist[1]))
+    if textlist[0] == 'scrollright':
+        pyautogui.hscroll(100*int(textlist[1]))
+    # postprocessing
+    setLog(textlist[1])
+    soundasync(textlist[0]+'.wav')
+    time.sleep(pausetime)
 
 # output log
 def setLog(text):
@@ -523,7 +572,9 @@ def setLog(text):
 
 # playsound internal process
 def playsoundIP(name):
-    playsound.playsound(soundPath+name)
+    # global value
+    global sndpath
+    playsound.playsound(sndpath+name)
 
 # playsound threading process
 def soundasync(name):
@@ -583,6 +634,9 @@ def callS(txt):
     # keyup
     if txtlistlist[0] == 'keyup':
         typingS(txtlistlist)
+    # hotkey
+    if txtlistlist[0] == 'hotkey':
+        typingS(txtlistlist)
     # pause
     if txtlistlist[0] == 'pause':
         pauseS(txtlistlist)
@@ -625,6 +679,18 @@ def callS(txt):
     # untill
     if txtlistlist[0] == 'untill':
         untillS(txtlistlist)
+    # scrollup
+    if txtlistlist[0] == 'scrollup':
+        scrollS(txtlistlist)
+    # scrolldown
+    if txtlistlist[0] == 'scrolldown':
+        scrollS(txtlistlist)
+    # scrollleft
+    if txtlistlist[0] == 'scrollleft':
+        scrollS(txtlistlist)
+    # scrollright
+    if txtlistlist[0] == 'scrollright':
+        scrollS(txtlistlist)
 
 # start skill
 def startS(skill):
@@ -649,9 +715,9 @@ def main():
     while True:
         # if can get args, set argv, else set skill1.txt
         if len(args) > 1:
-            startS(textPath+str(args[1]))
+            startS(txtpath+str(args[1]))
         else:
-            startS(textPath+'skill1.txt')
+            startS(txtpath+'skill1.txt')
         # if flg is true, break this loop
         if flg == True:
             break
@@ -661,6 +727,16 @@ def main():
 if os.path.dirname(__file__) != '':
     # default file path change to exec file path for process
     os.chdir(os.path.dirname(__file__))
+
+# set config.ini parameter
+configini = configparser.ConfigParser()
+configini.read('config.ini',encoding='utf-8')
+
+imgpath = configini.get('SKILL','ImgPath')
+txtpath = configini.get('SKILL','TxtPath')
+sndpath = configini.get('SKILL','SndPath')
+paustim = int(configini.get('SKILL','PausTim'))
+accurcy = float(configini.get('SKILL','Accurcy'))
 
 # main loop flg set False
 flg = False
