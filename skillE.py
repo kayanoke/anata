@@ -403,8 +403,9 @@ def untillS(textlist):
     accuracy = option.get('accuracy')
     out = option.get('out')
 
+    check = checktarget(textlist[1])
     while True:
-        if textlist[1] == 'clip':
+        if check == 'clip':
             # locate target position on screen
             target = pyperclip.paste()
             # if target is there and out is True, go to next
@@ -479,6 +480,10 @@ def saveS(textlist):
 
 #(replace|upper|lower|uppercase|lowercase|extract)/★/■
 def textS(textlist):
+    strength = textlist[1]
+    check = checktarget(textlist[1])
+    if check == 'clip':
+        strength = pyperclip.paste()
     if textlist[0] == 'replace':
         tmp = tmp.replace(textlist[1], textlist[2])
     if textlist[0] == 'upper':
@@ -486,9 +491,9 @@ def textS(textlist):
     if textlist[0] == 'lower':
         tmp = tmp.lower()
     if textlist[0] == 'uppercase':
-        tmp = tmp
+        tmp = util.ulcasetxt(textlist[1],'upper')
     if textlist[0] == 'lowercase':
-        tmp = tmp
+        tmp = util.ulcasetxt(textlist[1],'lower')
     if textlist[0] == 'extract':
         tmp = tmp
     pyperclip.copy(tmp)

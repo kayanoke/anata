@@ -169,6 +169,23 @@ def reptxt(text):
         data = data.replace('[sla]', '/')
     return text
 
+# repl txt
+def ulcasetxt(text,case):
+    # global value
+    global uppcase
+    global lowcase
+    result = ''
+    if case == 'upper':
+        moto = lowcase
+        saki = uppcase
+    else:
+        moto = uppcase
+        saki = lowcase
+    for data in range(len(text)):
+        idx = moto.find(text[data])
+        result += saki[idx]
+    return result
+
 # check image or clipboard or strength
 def checktarget(text):
     if text == 'clip':
@@ -209,5 +226,7 @@ sndpath = configini.get('SKILL','SndPath')
 paustim = int(configini.get('SKILL','PausTim'))
 accurcy = float(configini.get('SKILL','Accurcy'))
 savfile = configini.get('SKILL','SavFile')
+uppcase = configini.get('SKILL','UppCase')
+lowcase = configini.get('SKILL','LowCase')
 
-soundasync('end.wav')
+print(ulcasetxt('test','upper'))
