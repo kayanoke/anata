@@ -1,5 +1,6 @@
-# time
-import time
+#! python3
+# main.py - anata gui
+
 # GUI automation
 import pyautogui
 # file path and control
@@ -8,8 +9,6 @@ import os
 import subprocess
 # play sound file
 import playsound
-# skill exec
-import skillE
 # GUI
 import tkinter
 # image
@@ -30,7 +29,6 @@ def eventfunction(event):
     global iconcol
     xx = event.x // iconsiz
     yy = event.y // iconsiz
-    print(xx,yy)
     # if onofflist is 0, onofflist set 1 and create red rectangle
     # else, onofflist set 0 and delete red rectangle
     if onofflist[xx+yy] == 0:
@@ -39,7 +37,6 @@ def eventfunction(event):
         uply = 2+yy*iconsiz
         lowrx = -1+(xx+1)*iconsiz
         lowry = -1+(yy+1)*iconsiz
-        print(hidariuex,hidariuey,migisitax,migisitay)
         canvas.create_rectangle(uplx,uply,lowrx,lowry,width=2,outline='red',tags='tangle'+str(xx+yy))
         playsound.playsound(sndpath+'start.wav')
         proclist[xx+yy] = subprocess.Popen(['python','skillE.py','skill'+str(xx+yy+1)+'.txt'])
@@ -66,6 +63,7 @@ iconrow = int(configini.get('MAIN','IconRow'))
 iconcol = int(configini.get('MAIN','IconCol'))
 icnpath = configini.get('SKILL','IcnPath')
 sndpath = configini.get('SKILL','SndPath')
+
 
 # create window
 root = tkinter.Tk()
