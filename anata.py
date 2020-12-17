@@ -32,7 +32,7 @@ import util
 #(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/movepin=12,12/pause=1/
 def clickS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
     accuracy = option.get('accuracy')
     movepinx, movepiny = option.get('movepinx'), option.get('movepiny')
@@ -74,7 +74,7 @@ def clickS(textlist):
 #(pclick|pdclick|prclick|pmove|pdrag|zclick)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
 def pclickS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     xmax, xmin, ymax, ymin = option.get('xmax'), option.get('xmin'), option.get('ymax'), option.get('ymin')
     pause = option.get('pause')
 
@@ -107,7 +107,7 @@ def pclickS(textlist):
 #(typing|press|keydown|keyup|hotkey)/hello/pause=1/
 def typingS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
     # input to screen
@@ -151,7 +151,7 @@ def endS(textlist):
     # global value
     global flg
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     accuracy = option.get('accuracy')
 
     # if target parameter is not there, end 
@@ -181,7 +181,7 @@ def endS(textlist):
 #run/C:\\appli\aplli.bat/sync=(True|False)/pause=5/
 def runS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
     sync = option.get('sync')
 
@@ -202,7 +202,7 @@ def runS(textlist):
 #(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/1.txt/pause=5/
 def fileS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
     # if file1 is folder, end
@@ -262,7 +262,7 @@ def fileS(textlist):
 #(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/1.txt/pause=5/
 def folderS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
     # if folder1 is file, end
@@ -289,7 +289,7 @@ def ifS(textlist):
     # global value
     global skillidx
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     accuracy = option.get('accuracy')
 
     target = textlist[2]
@@ -353,12 +353,12 @@ def forS(textlist):
     # global value
     global txtlist
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     quantity, start, length = option.get('quantity'), option.get('start'), option.get('length')
     out = option.get('out')
     accuracy = option.get('accuracy')
 
-    check = checktarget(textlist[1])
+    check = util.checktarget(textlist[1])
     if check == 'image':
         # locate target position on screen
         target = util.locatescreen(textlist[1],accuracy)
@@ -380,7 +380,7 @@ def forS(textlist):
 # clipboard operation
 def clipS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
     # copy to clipboard
@@ -398,7 +398,7 @@ def clipS(textlist):
 #untill/★.png/out=True/accuracy=0.8/pause=1/
 def untillS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
     accuracy = option.get('accuracy')
     out = option.get('out')
@@ -433,7 +433,7 @@ def untillS(textlist):
 #(scrollup|scrolldown)/5/pause=1/
 def scrollS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
     if textlist[0] == 'scrollup':
@@ -450,10 +450,10 @@ def scrollS(textlist):
     time.sleep(pause)
 
 # save & load text operation
-#(save|load)/name/text=★/
+#(save|load)/name/strength=★/
 def saveS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     strength = option.get('strength')
 
     config = configparser.ConfigParser()
@@ -461,8 +461,12 @@ def saveS(textlist):
     # save to save file
     if textlist[0] == 'save':
         #if strength is nothing, get clipboard
-        if strength == '':
+        if strength == 'clip':
             strength = pyperclip.paste()
+            listi = strength.splitlines()
+            strength = ''
+            for data in listi:
+                strength += data
         #if save section is nothing, get clipboard
         if config.has_section('SAVE') == False:
             config.add_section('SAVE')
@@ -480,10 +484,10 @@ def saveS(textlist):
 
 #(replace|upper|lower|uppercase|lowercase|extract)/★/■
 def textS(textlist):
-    strength = textlist[1]
-    check = checktarget(textlist[1])
+    tmp = textlist[1]
+    check = util.checktarget(tmp)
     if check == 'clip':
-        strength = pyperclip.paste()
+        tmp = pyperclip.paste()
     if textlist[0] == 'replace':
         tmp = tmp.replace(textlist[1], textlist[2])
     if textlist[0] == 'upper':
@@ -491,33 +495,37 @@ def textS(textlist):
     if textlist[0] == 'lower':
         tmp = tmp.lower()
     if textlist[0] == 'uppercase':
-        tmp = util.ulcasetxt(textlist[1],'upper')
+        tmp = util.ulcasetxt(tmp,'upper')
     if textlist[0] == 'lowercase':
-        tmp = util.ulcasetxt(textlist[1],'lower')
+        tmp = util.ulcasetxt(tmp,'lower')
     if textlist[0] == 'extract':
-        tmp = tmp
+        tmp = util.geturl(tmp)
     pyperclip.copy(tmp)
     # postprocessing
-    util.setLog(textlist[1])
+    util.setLog(tmp)
     util.soundasync(textlist[0]+'.wav')
 
 #jumpurl/pause=5/
 def jumpurlS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
+    target = pyperclip.paste()
+    target = util.geturl(target)
+    if util.checkurl(target) == False:
+        return
     # run webbrowser
-    webbrowser.open(pyperclip.paste())
+    webbrowser.open(target)
     # postprocessing
-    util.setLog('go to '+pyperclip.paste())
-    #util.soundasync(textlist[0]+'.wav')
+    util.setLog('go to '+target)
+    util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
 
 #getdate/yyyymmdd/month=1/
 def getdateS(textlist):
     # set option parameter
-    option = util.setopion(textlist)
+    option = util.setoption(textlist)
     pause = option.get('pause')
 
     # postprocessing
@@ -654,7 +662,7 @@ def callS(txt):
         textS(txtlistlist)
     # extract
     if txtlistlist[0] == 'extract':
-        extractS(txtlistlist)
+        textS(txtlistlist)
     # jumpurl
     if txtlistlist[0] == 'jumpurl':
         jumpurlS(txtlistlist)
@@ -703,6 +711,7 @@ configini = configparser.ConfigParser()
 configini.read('config.ini',encoding='utf-8')
 
 txtpath = configini.get('SKILL','TxtPath')
+savfile = configini.get('SKILL','SavFile')
 
 # main loop flg set False
 flg = False

@@ -13,7 +13,7 @@ import threading
 import playsound
 
 # set option parameter
-def setopion(textlist):
+def setoption(textlist):
     # global value
     global paustim
     global accurcy
@@ -132,6 +132,10 @@ def checktarget(target):
         return 'image'
     if target == 'clip':
         return 'clip'
+    result = target.splitlines()
+    for data in result:
+        if data.lower().startswith('http') == True:
+            return 'url'
     try:
         int(target)
         return 'int'
@@ -186,13 +190,21 @@ def ulcasetxt(text,case):
         result += saki[idx]
     return result
 
-# check image or clipboard or strength
-def checktarget(text):
-    if text == 'clip':
-        return 'clip'
-    if text.endswith('.png') == True:
-        return 'image'
-    return 'text'
+# get one split
+def geturl(text):
+    result = text.splitlines()
+    for data in result:
+        if data.lower().startswith('http') == True:
+            return data
+    return ''
+
+# check url
+def checkurl(text):
+    result = text.splitlines()
+    for data in result:
+        if data.lower().startswith('http') == True:
+            return True
+    return False
 
 # output log
 def setLog(text):
@@ -228,5 +240,3 @@ accurcy = float(configini.get('SKILL','Accurcy'))
 savfile = configini.get('SKILL','SavFile')
 uppcase = configini.get('SKILL','UppCase')
 lowcase = configini.get('SKILL','LowCase')
-
-print(ulcasetxt('test','upper'))
