@@ -27,6 +27,8 @@ import webbrowser
 import itertools
 # util
 import util
+# regex
+import re
 
 # click operation
 #(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/movepin=12,12/pause=1/
@@ -292,13 +294,13 @@ def ifS(textlist):
     option = util.setoption(textlist)
     accuracy = option.get('accuracy')
 
-    target = textlist[2]
-    check = util.checktarget(target)
+    check = util.checktarget(textlist[1])
     flg = False
     # locate target position on screen
     # if match, flg is True
     # equal condition
     if check == 'image':
+        target = util.locatescreen(textlist[1],accuracy)
         if target is not None:
             flg = True
         # flg is True, go to 1, else go to 2
@@ -311,6 +313,7 @@ def ifS(textlist):
             skillidx = int(textlist[4]) - 2
             util.setLog('False : go to '+int(skillidx+1))
         return
+    target = textlist[1]
     if check == 'clip':
         target = pyperclip.paste()
     if textlist[2] == '==':
@@ -348,29 +351,12 @@ def ifS(textlist):
 
 # repete operation
 #for/quantity=5/start=5/length=10
-#for/★.png/quantity=5/start=5/length=10/out=True/accuracy=0.8/
 def forS(textlist):
     # global value
     global txtlist
     # set option parameter
     option = util.setoption(textlist)
     quantity, start, length = option.get('quantity'), option.get('start'), option.get('length')
-    out = option.get('out')
-    accuracy = option.get('accuracy')
-
-    check = util.checktarget(textlist[1])
-    if check == 'image':
-        # locate target position on screen
-        target = util.locatescreen(textlist[1],accuracy)
-        # if target is there and out is True, go to loop
-        # if target is nothing and out is False, go to loop
-        if (target is None and out == True) or (target is not None and out == False):
-            util.soundasync(textlist[0]+'.wav')
-            util.setLog('Loop quanity : '+str(quantity)+' ,start : '+str(start)+' ,length : '+str(length))
-            # loop
-            for i, j in itertools.product(range(quantity-1),range(length)):
-                callS(txtlist[start-1+j])
-        return
     util.soundasync(textlist[0]+'.wav')
     util.setLog('Loop quanity : '+str(quantity)+' ,start : '+str(start)+' ,length : '+str(length))
     # loop
@@ -415,6 +401,9 @@ def untillS(textlist):
                 break
             if target == textlist[1] and out == False:
                 util.setLog(textlist[1]+' clipboard in')
+                break
+            if re.search(textlist[1], target) is not None:
+                util.setLog(textlist[1]+' serach in')
                 break
         else:
             # locate target position on screen
