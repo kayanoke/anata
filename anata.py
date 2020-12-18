@@ -293,7 +293,7 @@ def ifS(textlist):
     accuracy = option.get('accuracy')
 
     target = textlist[2]
-    check = checktarget(target)
+    check = util.checktarget(target)
     flg = False
     # locate target position on screen
     # if match, flg is True
@@ -403,7 +403,7 @@ def untillS(textlist):
     accuracy = option.get('accuracy')
     out = option.get('out')
 
-    check = checktarget(textlist[1])
+    check = util.checktarget(textlist[1])
     while True:
         if check == 'clip':
             # locate target position on screen

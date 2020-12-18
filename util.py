@@ -17,6 +17,7 @@ def setoption(textlist):
     # global value
     global paustim
     global accurcy
+    global strngth
     # initialize dafault parameter
     option = {}
     option['pause'] = paustim
@@ -28,7 +29,7 @@ def setoption(textlist):
     option['start'], option['length'] = 0, 0
     option['quantity'] = 0
     option['out'] = False
-    option['strength'] = ''
+    option['strength'] = strngth
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -238,5 +239,6 @@ sndpath = configini.get('SKILL','SndPath')
 paustim = int(configini.get('SKILL','PausTim'))
 accurcy = float(configini.get('SKILL','Accurcy'))
 savfile = configini.get('SKILL','SavFile')
+strngth = configini.get('SKILL','Strngth')
 uppcase = configini.get('SKILL','UppCase')
 lowcase = configini.get('SKILL','LowCase')
