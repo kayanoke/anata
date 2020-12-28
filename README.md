@@ -1,6 +1,6 @@
-# ★★★★★★★★★★★★★★★★★★
-# ★★★      anata        ★★★
-# ★★★★★★★★★★★★★★★★★★
+# ★★★★★★★★★
+# ★★★anata★★★
+# ★★★★★★★★★
 require playsound pyautogui pyperclip library
 
 ## い　click operation by image recognition
