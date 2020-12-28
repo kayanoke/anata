@@ -1,107 +1,149 @@
-# anata
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-★★★                ＲＰＡ                                                  ★★★
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-テキストに書き込んだ内容を読み取りクリックやキー入力等を行うことができます。
-startsS.py → コマンドプロンプトからファイル名を指定して実行します。
-              main.pyを起動し、アイコンをクリックすることでskill1.txt～skill6.txtいずれかを読み込み実行します。
-main.py → 実行するとアイコンが6種表示されます。アイコンクリックするとstartsS.pyを起動します。
-          再度クリックすると起動したstartsS.pyを停止します。
+# ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+# ★★★                 anata                                             ★★★
+# ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+require playsound pyautogui pyperclip library
 
-必要ライブラリ
-pip install playsound
-pip install pyautogui
-pip install opencv-python
-pip install pyperclip
-pip install schedule
+## い　click operation by image recognition
+    name / image / accuracy / shiftposition / pause /
+    (click|dclick|rclick|move|drag)/★.png/accuracy=0.8/shiftpin=12,12/pause=1/
+     1. name : operation name -> click:click/dclick:double click/rclick:right click/move:move cursol/drag:drag cursol
+     2. image : image recognition file(png)
+     3. accuracy : image recognition accuracy 0.0～1.0 default:accuracy=0.8
+     4. shiftposition : shift target position default:shiftpin=0,0
+     5. pause : pause for seconds default:pause=0
 
+## ろ　click operation click by position
+    name / x position / y position / pause /
+    (clickp|dclickp|rclickp|movep|dragp|clickz)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
+     1. name : operation name -> clickp:click/dclickp:double click/rclickp:right click/movep:move cursol/dragp:drag cursol/clickz:random click
+     2. x position : target x position
+     3. y position : target y position
+     4. xmax, ymax, xmin, ymin : range for random click
+     5. pause : pause for seconds default:pause=0
 
-い　クリック・ダブルクリック・右クリック・マウス移動・マウスドラッグ
-    name / image / accuracy / moveclickposition / stoptime /
-    (click|dclick|rclick|move|drag)/★.png/accuracy=0.8/movepin=12,12/stop=1/
-     1 name : 操作の名称
-     2 image : 画像ファイル名
-     3 accuracy : 画像の精度 0.0～1.0 無ければ accuracy=0.8
-     4 moveclickposition : 画像の中心から指定分ずらして操作する。 無ければ movepin=0,0
-     5 stoptime : 操作後指定秒数処理を停止。 無ければ stop=0
+## は　key operation
+    name / string / string2 / pause /
+    (typing|press|keydown|keyup|hotkey)/★(/★)/pause=1/
+     1. name : operation name -> typing:keyboard typing/press:press key/keydown:hold down key/keyup:hold up key/hotkey:press 2 keys
+     2. string : output string
+     3. string2 : 2nd string for hotkey
+     4. pause : pause for seconds default:pause=0
 
-ろ　タイピング・キー操作
-    name / string / stoptime /
-    (typing|press|keydown|keyup)/hello/stop=1/
-     1 name : 操作の名称
-     2 string : 入力文字 全角なら全角を入れ、半角なら半角を入力？
-     5 stoptime : 操作後指定秒数処理を停止。 無ければ stop=0
-
-は　処理終了
+## に　end operation
     name / image / accuracy /
     end/★.png/accuracy=0.8/
-     1 name : 操作の名称
-     2 image : 画像ファイル名　指定あれば画像検索、無ければ即停止
-     3 accuracy : 画像の精度 0.0～1.0 無ければ accuracy=0.8
-     ※ : 処理終了しなければテキストを再度読み直して処理をする
+     1. name : operation name -> end:close operation
+     2. image : image recognition file(png) if no image is specified, immediately end if image recognition fails, restart operation from the beginning
+     3. accuracy : image recognition accuracy 0.0～1.0 default:accuracy=0.8
 
-に　一時停止
-    name / stoptime /
-    stop/5/
-     1 name : 操作の名称
-     2 stoptime : 操作後指定秒数処理を停止
+## ほ　pause operation
+    name / pause /
+    pause/5/
+     1. name : operation name -> pause:pause operation
+     2. pause : pause for seconds
 
-ほ　アプリ起動
-    name / filepath / synchronize / stoptime /
-    run/C:\\appli\aplli.bat/sync=(True|False)/stop=5/
-     1 name : 操作の名称
-     2 filepath : ファイルパス
-     3 synchronize : True=同期、False=非同期
-     4 stoptime : 操作後指定秒数処理を停止 無ければ stop=0
+## へ　launch app operation
+    name / filepath / synchronize / pause /
+    run/C:\\appli\aplli.bat/sync=(True|False)/pause=5/
+     1. name : operation name -> run:launch app
+     2. filepath : application file path
+     3. synchronize : True=synchronize,False=unsynchronize
+     4. pause : pause for seconds default:pause=0
 
-へ　ファイルコピー・移動・削除・フォルダを開く
-    name / tofilepath / fromfilepath / stoptime /
-    (fmove|fcopy|fdelete|folder)/C:\\app/1.txt/C:\\app/1.txt/stop=5/
-     1 name : 操作の名称
-     2 tofilepath : 移動元ファイルパス
-     3 fromfilepath : 移動先ファイルパス　削除・フォルダを開く場合なし
-     4 stoptime : 操作後指定秒数処理を停止 無ければ stop=0
-     tofilepath   : dir check & file exists & target is file only
-     fromfilepath : dir check & file not exists & target is file only
+## と　file operation
+    name / fromfilepath / tofilepath / pause /
+    (fmove|fcopy|fdelete|folder)/C:\\app/1.txt/C:\\app/2.txt/pause=5/
+     1. name : operation name -> fmove:move file/fcopy:copy file/fdelete:delete file/folder:open folder
+     2. fromfilepath : target file path dir check & file exists & target is file only
+     3. tofilepath : target to move file path for file move and copy dir check & file not exists & target is file only
+     4. pause : pause for seconds default:pause=0
 
-と　ＩＦ条件分岐
-    name / compare / jumptoT / jumptoF /
+## ち　conditional branch operation
+    name / left / compare / right /jumptoT / jumptoF /
     if/1/=/1/5/7/
-     1 name : 操作の名称
-     2 left : 比較対象
-     2 compare : 比較条件
-     2 righht : 比較対象
-     3 jumptoT : Trueの時のジャンプ行数
-     4 jumptoF : Falseの時のジャンプ行数
+     1. name : operation name -> if:conditional branch
+     2. left : left condition 'clip' load clipboard
+     3. compare : compare sign
+     4. right : right condition
+     5. jumptoT : jump number with True
+     6. jumptoF : jump number with False
 
-ち　ＩＦ画像分岐
-    name / image / jumptoT / jumptoF / accuracy / accuracy=0.8/
-    ifimg/★.png/5/7/accuracy=0.8/
-     1 name : 操作の名称
-     2 image : 画像ファイル名　あればTrue、なければFalse
-     3 jumptoT : Trueの時のジャンプ行数
-     4 jumptoF : Falseの時のジャンプ行数
-     5 accuracy : 画像の精度 0.0～1.0 無ければ accuracy=0.8
+## り　conditional branch operation by image recognition
+    name / image / jumptoT / jumptoF / accuracy /
+    if/★.png/5/7/accuracy=0.8/
+     1. name : operation name -> if:conditional branch
+     2. image : image recognition file(png)
+     3. jumptoT : jump number with image recognition success
+     4. jumptoF : jump number with image recognition fails
+     5. accuracy : image recognition accuracy 0.0～1.0 default:accuracy=0.8
 
-り　Ｆｏｒ繰り返し
-    name / quantity / dobetween /
-    for/1/5,10/
-     1 name : 操作の名称
-     2 quantity : 指定回数繰り返す
-     4 dobetween : 左から右の行を繰り返す
+## ぬ　repeate operation
+    name / quantity / start / length /
+    for/quantity=5/start=5/length=10/
+     1. name : operation name -> for:repeate
+     2. quantity : repeate quantity
+     3. start : start number
+     4. length : 1 repeate operation length
 
-ぬ　Ｆｏｒ画像繰り返し
-    name / ( quantity | image ) / dobetween / imageoutofsight / accuracy /
-    forimg/★.png/5,10/out/accuracy=0.8/
-     1 name : 操作の名称
-     2 image : 画像が出るまで繰り返す
-     3 dobetween : 左から右の行を繰り返す
-     4 imageoutofsight : out なら画像が消えるまで繰り返す
-     5 accuracy : 画像の精度 0.0～1.0 無ければ accuracy=0.8
+## る　clipboard operation
+    name / string / pause /
+    (ccopy|cpaste)/test/pause=5/
+     1. name : operation name -> ccopy:string is copied to clipboard/cpaste:paste from clipboard
+     2. string : copy string for ccopy
+     3. pause : pause for seconds default:pause=0
 
-る　クリップボード
-    name / text / stoptime /
-    (ccopy|cpaste)/test/stop=5/
-     1 name : 操作の名称
-     2 text : ccopyの場合、クリップボードにコピーする
-     3 stoptime : 操作後指定秒数処理を停止 無ければ stop=0
+## を　wait untill match operation
+    name / image / targetout / accuracy / pause /
+    name / string / targetout / accuracy / pause /
+    untill/(★.png|string)/out=True/accuracy=0.8/pause=1/
+     1. name : operation name -> untill:wait untill match
+     2. image : image recognition file(png)
+     3. string : match to clipboard text and enable to regex
+     4. targetout : True:target out, False:target in
+     5. accuracy : image recognition accuracy 0.0～1.0 default:accuracy=0.8
+     6. pause : pause for seconds default:pause=0
+
+## わ　scroll operation
+    name / amount / pause /
+    (scrollup|scrolldown|scrollleft|scrollright)/5/pause=1/
+     1. name : operation name -> scrollup:scroll up/scrolldown:scroll down/scrollleft:scroll left/scrollright:scroll right
+     2. amount : scroll amount
+     3. pause : pause for seconds default:pause=0
+
+## か　save & load text operation
+    name / save name / string /
+    (save|load)/name1/string=★/
+     1. name : operation name -> save:save string with save name/load:get save name string
+     2. save name : save name
+     3. string : save string
+
+## よ　clioboard exchange operation
+    name / string1 / string2 /
+    (replace|upper|lower|uppercase|lowercase|extract)/★/■/
+     1. name : operation name -> replace:string1 replace string2/upper:upper/lower:lower/uppercase:uppercase/lowercase:lowercase/extract:extract url
+     2. string1 : replace TO
+     3. string2 : replace FROM
+
+## た　jump to clipboard url operation
+    name / pause /
+    jumpurl/pause=5/
+     1. name : operation name -> jumpurl:jump to url
+     2. pause : pause for seconds default:pause=0
+
+## れ　extract date to clipboard operation
+    name / pause /
+    jumpurl/pause=5/
+     1. name : operation name -> jumpurl:jump to url
+     2. pause : pause for seconds default:pause=0
+
+## そ　date copy operation
+    name / format / add year / add month / add date / string
+    getdate/YYYYMMDD/year=1/month=1/date=1/string=firstday/
+     1. name : operation name -> getdate:copy to date
+     2. format : YYYY,YY,MM,M,DD,D,HH,H,mm,m,ss,s can set
+     3. add year : add year
+     4. add month : add month
+     5. add date : add date
+     6. string : firstday:first day lastday:last day
+
+つねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす

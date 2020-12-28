@@ -30,14 +30,14 @@ import util
 # regex
 import re
 
-# click operation
-#(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/movepin=12,12/pause=1/
+# click operation by image recognition
+#(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/shiftpin=12,12/pause=1/
 def clickS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
     accuracy = option.get('accuracy')
-    movepinx, movepiny = option.get('movepinx'), option.get('movepiny')
+    shiftpinx, shiftpiny = option.get('shiftpinx'), option.get('shiftpiny')
 
     # locate target position on screen
     target = util.locatescreen(textlist[1],accuracy)
@@ -48,9 +48,9 @@ def clickS(textlist):
         return
     # target center position
     x, y = pyautogui.center(target)
-    # move target position
-    x, y = x + movepinx, y + movepiny
-    # input to screen
+    # shift target position
+    x, y = x + shiftpinx, y + shiftpiny
+    # output to screen
     # click once
     if textlist[0] == 'click':
         pyautogui.click(x,y)
@@ -72,32 +72,33 @@ def clickS(textlist):
     util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
 
-# position click operation
-#(pclick|pdclick|prclick|pmove|pdrag|zclick)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
-def pclickS(textlist):
+# click operation click by position
+#(clickp|dclickp|rclickp|movep|dragp|clickz)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
+def clickpS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     xmax, xmin, ymax, ymin = option.get('xmax'), option.get('xmin'), option.get('ymax'), option.get('ymin')
     pause = option.get('pause')
 
-    if textlist[0] == 'zclick':
+    if textlist[0] == 'clickz':
         # random x, y
         x, y = random.randint(xmin, xmax), random.randint(ymin, ymax)
-    # input to screen
+        pyautogui.click(x,y)
+    # output to screen
     # click once
-    if textlist[0] == 'pclick' or textlist[0] == 'zclick':
+    if textlist[0] == 'clickp':
         pyautogui.click(x,y)
     # double click
-    if textlist[0] == 'pdclick':
+    if textlist[0] == 'dclickp':
         pyautogui.doubleClick(x,y)
     # right click
-    if textlist[0] == 'prclick':
+    if textlist[0] == 'rclickp':
         pyautogui.rightClick(x,y)
     # move to target
-    if textlist[0] == 'pmove':
+    if textlist[0] == 'movep':
         pyautogui.moveTo(x,y)
     # drag to taget
-    if textlist[0] == 'pdrag':
+    if textlist[0] == 'dragp':
         pyautogui.dragTo(x,y,1,button='left')
 
     # postprocessing
@@ -105,14 +106,14 @@ def pclickS(textlist):
     util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
 
-# typing operation
-#(typing|press|keydown|keyup|hotkey)/hello/pause=1/
+# key operation
+#(typing|press|keydown|keyup|hotkey)/hello(/v)/pause=1/
 def typingS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
 
-    # input to screen
+    # output to screen
     # keyboard typing
     if textlist[0] == 'typing':
         tmp = pyperclip.paste()
@@ -138,7 +139,7 @@ def typingS(textlist):
     time.sleep(pause)
 
 # pause operation
-#pause/1/
+#pause/5/
 def pauseS(textlist):
     # pause
     time.sleep(int(textlist[1]))
@@ -148,7 +149,7 @@ def pauseS(textlist):
     util.soundasync(textlist[0]+'.wav')
 
 # end operation
-#end/★.png/
+#end/★.png/accuracy=0.8/
 def endS(textlist):
     # global value
     global flg
@@ -179,7 +180,7 @@ def endS(textlist):
     util.setLog('owari')
     util.soundasync(textlist[0]+'.wav')
 
-# execute application operation
+# launch app operation
 #run/C:\\appli\aplli.bat/sync=(True|False)/pause=5/
 def runS(textlist):
     # set option parameter
@@ -201,7 +202,7 @@ def runS(textlist):
     time.sleep(pause)
 
 # file operation
-#(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/1.txt/pause=5/
+#(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/2.txt/pause=5/
 def fileS(textlist):
     # set option parameter
     option = util.setoption(textlist)
@@ -261,7 +262,7 @@ def fileS(textlist):
     time.sleep(pause)
 
 # folder operation
-#(fmove|fcopy|fdelete)/C:\\app/1.txt/C:\\app/1.txt/pause=5/
+#(folder)/C:\\app/1.txt/pause=5/
 def folderS(textlist):
     # set option parameter
     option = util.setoption(textlist)
@@ -298,7 +299,6 @@ def ifS(textlist):
     flg = False
     # locate target position on screen
     # if match, flg is True
-    # equal condition
     if check == 'image':
         target = util.locatescreen(textlist[1],accuracy)
         if target is not None:
@@ -306,17 +306,19 @@ def ifS(textlist):
         # flg is True, go to 1, else go to 2
         if flg == True:
             util.soundasync('bunkiT.wav')
-            skillidx = int(textlist[3]) - 2
+            skillidx = int(textlist[2]) - 2
             util.setLog('True : go to '+int(skillidx+1))
         else:
             util.soundasync('bunkiF.wav')
-            skillidx = int(textlist[4]) - 2
+            skillidx = int(textlist[3]) - 2
             util.setLog('False : go to '+int(skillidx+1))
         return
+    # target is not image
     target = textlist[1]
     if check == 'clip':
         target = pyperclip.paste()
-    if textlist[2] == '==':
+    # equal condition
+    if textlist[2] == '==' or textlist[2] == '=':
         if target == textlist[3]:
             flg = True
     # less than condition
@@ -336,7 +338,7 @@ def ifS(textlist):
         if int(target) >= int(textlist[3]):
             flg = True
     # not equal condition
-    if textlist[2] == '!=':
+    if textlist[2] == '!=' or textlist[2] == '<>':
         if target != textlist[3]:
             flg = True
     # flg is True, go to 1, else go to 2
@@ -364,6 +366,7 @@ def forS(textlist):
         callS(txtlist[start-1+j])
 
 # clipboard operation
+#(ccopy|cpaste)/★/pause=5/
 def clipS(textlist):
     # set option parameter
     option = util.setoption(textlist)
@@ -380,8 +383,8 @@ def clipS(textlist):
     util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
 
-# clipboard operation
-#untill/★.png/out=True/accuracy=0.8/pause=1/
+# wait untill match operation
+#untill/(★.png|string)/out=True/accuracy=0.8/pause=1/
 def untillS(textlist):
     # set option parameter
     option = util.setoption(textlist)
@@ -391,21 +394,8 @@ def untillS(textlist):
 
     check = util.checktarget(textlist[1])
     while True:
-        if check == 'clip':
-            # locate target position on screen
-            target = pyperclip.paste()
-            # if target is there and out is True, go to next
-            # if target is nothing and out is False, go to next
-            if target != textlist[1] and out == True:
-                util.setLog(textlist[1]+' out of clipboard')
-                break
-            if target == textlist[1] and out == False:
-                util.setLog(textlist[1]+' clipboard in')
-                break
-            if re.search(textlist[1], target) is not None:
-                util.setLog(textlist[1]+' serach in')
-                break
-        else:
+        if check == 'image':
+            # target is image
             # locate target position on screen
             target = util.locatescreen(textlist[1],accuracy)
             # if target is there and out is True, go to next
@@ -416,10 +406,28 @@ def untillS(textlist):
             if target is not None and out == False:
                 util.setLog(textlist[1]+' is displayed')
                 break
+        else:
+            # target is string
+            target = pyperclip.paste()
+            # if target is there and out is True, go to next
+            # if target is nothing and out is False, go to next
+            if target != textlist[1] and out == True:
+                util.setLog(textlist[1]+' out of clipboard')
+                break
+            if target == textlist[1] and out == False:
+                util.setLog(textlist[1]+' clipboard in')
+                break
+            # regex search
+            if re.search(textlist[1], target) is None and out == True:
+                util.setLog(textlist[1]+' search out')
+                break
+            if re.search(textlist[1], target) is not None and out == False:
+                util.setLog(textlist[1]+' search in')
+                break
         time.sleep(pause)
 
 # scroll operation
-#(scrollup|scrolldown)/5/pause=1/
+#(scrollup|scrolldown|scrollleft|scrollright)/5/pause=1/
 def scrollS(textlist):
     # set option parameter
     option = util.setoption(textlist)
@@ -439,28 +447,29 @@ def scrollS(textlist):
     time.sleep(pause)
 
 # save & load text operation
-#(save|load)/name/strength=★/
+#(save|load)/name/string=★/
 def saveS(textlist):
+    # global value
+    global savfile
     # set option parameter
     option = util.setoption(textlist)
-    strength = option.get('strength')
+    string = option.get('string')
 
     config = configparser.ConfigParser()
     config.read(savfile,encoding='utf-8')
     # save to save file
     if textlist[0] == 'save':
-        #if strength is nothing, get clipboard
-        if strength == 'clip':
-            strength = pyperclip.paste()
-            listi = strength.splitlines()
-            strength = ''
-            for data in listi:
-                strength += data
+        #if string is nothing or clip, get clipboard
+        if string == 'clip' or string == '':
+            cliplist = pyperclip.paste().splitlines()
+            string = ''
+            for data in cliplist:
+                string += data
         #if save section is nothing, get clipboard
         if config.has_section('SAVE') == False:
             config.add_section('SAVE')
         # write to save file
-        config.set('SAVE',textlist[1],strength)
+        config.set('SAVE',textlist[1],string)
         with open(savfile,'w') as file:
             config.write(file)
     # load from save file
@@ -471,11 +480,13 @@ def saveS(textlist):
     util.setLog(textlist[0]+' '+textlist[1])
     util.soundasync(textlist[0]+'.wav')
 
-#(replace|upper|lower|uppercase|lowercase|extract)/★/■
+# clioboard exchange operation
+#(replace|upper|lower|uppercase|lowercase|extract)/★/■/
 def textS(textlist):
     tmp = textlist[1]
     check = util.checktarget(tmp)
-    if check == 'clip':
+    #if string is nothing or clip, get clipboard
+    if check == 'clip' or string == '':
         tmp = pyperclip.paste()
     if textlist[0] == 'replace':
         tmp = tmp.replace(textlist[1], textlist[2])
@@ -511,19 +522,22 @@ def jumpurlS(textlist):
     util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
 
-#getdate/yyyymmdd/month=1/
+#date copy operation
+#getdate/YYYYMMDD/year=1/month=1/date=1/string=firstday/
 def getdateS(textlist):
     # set option parameter
     option = util.setoption(textlist)
-    pause = option.get('pause')
+    year = option.get('year')
+    month = option.get('month')
+    date = option.get('date')
+    string = option.get('string')
+
+    text = util.getdatetime(textlist[1],year,month,date,string)
+    pyperclip.copy(text)
 
     # postprocessing
-    util.setLog(textlist[1])
-    #util.soundasync(textlist[0]+'.wav')
-    time.sleep(pause)
-    # getdate
-    if txtlistlist[0] == 'getdate':
-        getdateS(txtlistlist)
+    util.setLog(text+' copy')
+    util.soundasync(textlist[0]+'.wav')
 
 # analysis and call operation
 def callS(txt):
@@ -547,24 +561,24 @@ def callS(txt):
     # drag
     if txtlistlist[0] == 'drag':
         clickS(txtlistlist)
-    # zclick
-    if txtlistlist[0] == 'zclick':
-        pclickS(txtlistlist)
-    # pclick
-    if txtlistlist[0] == 'pclick':
-        pclickS(txtlistlist)
-    # pdclick
-    if txtlistlist[0] == 'pdclick':
-        pclickS(txtlistlist)
-    # prclick
-    if txtlistlist[0] == 'prclick':
-        pclickS(txtlistlist)
-    # pmove
-    if txtlistlist[0] == 'pmove':
-        pclickS(txtlistlist)
-    # pdrag
-    if txtlistlist[0] == 'pdrag':
-        pclickS(txtlistlist)
+    # clickz
+    if txtlistlist[0] == 'clickz':
+        clickpS(txtlistlist)
+    # clickp
+    if txtlistlist[0] == 'clickp':
+        clickpS(txtlistlist)
+    # dclickp
+    if txtlistlist[0] == 'dclickp':
+        clickpS(txtlistlist)
+    # rclickp
+    if txtlistlist[0] == 'rclickp':
+        clickpS(txtlistlist)
+    # movep
+    if txtlistlist[0] == 'movep':
+        clickpS(txtlistlist)
+    # dragp
+    if txtlistlist[0] == 'dragp':
+        clickpS(txtlistlist)
     # typing
     if txtlistlist[0] == 'typing':
         typingS(txtlistlist)

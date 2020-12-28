@@ -11,25 +11,32 @@ import pyautogui
 import threading
 # play sound file
 import playsound
+# date time
+import datetime
+# dateutil
+import dateutil.relativedelta
 
 # set option parameter
 def setoption(textlist):
     # global value
     global paustim
     global accurcy
-    global strngth
+    global strings
     # initialize dafault parameter
     option = {}
     option['pause'] = paustim
     option['accuracy'] = accurcy
-    option['movepinx'], option['movepiny'] = 0, 0
+    option['shiftpinx'], option['shiftpiny'] = 0, 0
     option['x'], option['y'] = 0, 0
     option['xmax'], option['xmin'], option['ymax'], option['ymin'] = 0, 0, 0, 0
     option['sync'] = False
     option['start'], option['length'] = 0, 0
     option['quantity'] = 0
     option['out'] = False
-    option['strength'] = strngth
+    option['string'] = strings
+    option['year'] = 0
+    option['month'] = 0
+    option['date'] = 0
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -37,10 +44,10 @@ def setoption(textlist):
         if datalist[0] == 'accuracy':
             option['accuracy'] = float(datalist[1])
             continue
-        # move x,y positon from target
-        if datalist[0] == 'movepin':
+        # shift x,y positon from target
+        if datalist[0] == 'shiftpin':
             datalistlist = datalist[1].split(',')
-            option['movepinx'], option['movepiny'] = int(datalistlist[0]), int(datalistlist[1])
+            option['shiftpinx'], option['shiftpiny'] = int(datalistlist[0]), int(datalistlist[1])
             continue
         # pause
         if datalist[0] == 'pause':
@@ -93,15 +100,27 @@ def setoption(textlist):
             if datalist[1] == 'True':
                 option['out'] = True
             continue
-        # strength
-        if datalist[0] == 'strength':
-            option['strength'] = datalist[1]
+        # string
+        if datalist[0] == 'string':
+            option['string'] = datalist[1]
+            continue
+        # year
+        if datalist[0] == 'year':
+            option['year'] = int(datalist[1])
+            continue
+        # month
+        if datalist[0] == 'month':
+            option['month'] = int(datalist[1])
+            continue
+        # date
+        if datalist[0] == 'date':
+            option['date'] = int(datalist[1])
             continue
     # initialize dafault parameter
     option.setdefault('pause',paustim)
     option.setdefault('accuracy',accurcy)
-    option.setdefault('movepinx',0)
-    option.setdefault('movepiny',0)
+    option.setdefault('shiftpinx',0)
+    option.setdefault('shiftpiny',0)
     option.setdefault('x',0)
     option.setdefault('y',0)
     option.setdefault('xmax',0)
@@ -113,7 +132,7 @@ def setoption(textlist):
     option.setdefault('length',0)
     option.setdefault('quantity',0)
     option.setdefault('out',False)
-    option.setdefault('strength','')
+    option.setdefault('string','')
     return option
 
 # locate on screen
@@ -141,7 +160,7 @@ def checktarget(target):
         int(target)
         return 'int'
     except ValueError:
-        return 'strength'
+        return 'string'
 
 # check exist png
 def checkpng(png):
@@ -170,8 +189,8 @@ def checkwav(wav):
 def reptxt(text):
     # split '/' and delete new line code
     text = text.replace('\n', '').split('/')
-    for data in text:
-        data = data.replace('[sla]', '/')
+    for i in range(len(text)):
+        text[i] = text[i].replace('[sla]', '/')
     return text
 
 # repl txt
@@ -223,6 +242,33 @@ def soundasync(name):
     thread = threading.Thread(target=playsoundIP,kwargs={'name': name})
     thread.start()
 
+# get date time
+def getdatetime(format,valuey,valuem,valued,string):
+    date = datetime.datetime.now()
+    date = date + dateutil.relativedelta.relativedelta(years=valuey,months=valuem,days=valued)
+    if string.startswith('f') == True:
+        date = date + dateutil.relativedelta.relativedelta(day=1)
+    if string.startswith('l') == True:
+        date = date + dateutil.relativedelta.relativedelta(months=1,day=1,days=-1)
+    format = format.replace('YYYY','%Y')
+    format = format.replace('YY','%y')
+    format = format.replace('MM','hi')
+    format = format.replace('M','bi')
+    format = format.replace('DD','%d')
+    format = format.replace('D','%#d')
+    format = format.replace('HH','ji')
+    format = format.replace('H','%#H')
+    format = format.replace('mm','fu')
+    format = format.replace('m','%#M')
+    format = format.replace('SS','by')
+    format = format.replace('S','%#S')
+    format = format.replace('hi','%m')
+    format = format.replace('bi','%#m')
+    format = format.replace('ji','%H')
+    format = format.replace('fu','%M')
+    format = format.replace('by','%S')
+    return date.strftime(format)
+
 # get exceute file path
 # __file__ : [absolute path + file name] and get folder path by dirname(__file__)
 if os.path.dirname(__file__) != '':
@@ -239,6 +285,6 @@ sndpath = configini.get('SKILL','SndPath')
 paustim = int(configini.get('SKILL','PausTim'))
 accurcy = float(configini.get('SKILL','Accurcy'))
 savfile = configini.get('SKILL','SavFile')
-strngth = configini.get('SKILL','Strngth')
+strings = configini.get('SKILL','Strings')
 uppcase = configini.get('SKILL','UppCase')
 lowcase = configini.get('SKILL','LowCase')
