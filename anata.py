@@ -38,6 +38,8 @@ def clickS(textlist):
     pause = option.get('pause')
     accuracy = option.get('accuracy')
     shiftpinx, shiftpiny = option.get('shiftpinx'), option.get('shiftpiny')
+    clickduration = option.get('clickduration')
+    dragduration = option.get('dragduration')
 
     # locate target position on screen
     target = util.locatescreen(textlist[1],accuracy)
@@ -53,19 +55,19 @@ def clickS(textlist):
     # output to screen
     # click once
     if textlist[0] == 'click':
-        pyautogui.click(x,y)
+        pyautogui.click(x,y,duration=clickduration)
     # double click
     if textlist[0] == 'dclick':
-        pyautogui.doubleClick(x,y)
+        pyautogui.doubleClick(x,y,duration=clickduration)
     # right click
     if textlist[0] == 'rclick':
-        pyautogui.rightClick(x,y)
+        pyautogui.rightClick(x,y,duration=clickduration)
     # move to target
     if textlist[0] == 'move':
-        pyautogui.moveTo(x,y)
+        pyautogui.moveTo(x,y,duration=clickduration)
     # drag to taget
     if textlist[0] == 'drag':
-        pyautogui.dragTo(x,y,1,button='left')
+        pyautogui.dragTo(x,y,duration=dragduration,button='left')
 
     # postprocessing
     util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
@@ -79,27 +81,29 @@ def clickpS(textlist):
     option = util.setoption(textlist)
     xmax, xmin, ymax, ymin = option.get('xmax'), option.get('xmin'), option.get('ymax'), option.get('ymin')
     pause = option.get('pause')
+    clickduration = option.get('clickduration')
+    dragduration = option.get('dragduration')
 
     if textlist[0] == 'clickz':
         # random x, y
         x, y = random.randint(xmin, xmax), random.randint(ymin, ymax)
-        pyautogui.click(x,y)
+        pyautogui.click(x,y,duration=clickduration)
     # output to screen
     # click once
     if textlist[0] == 'clickp':
-        pyautogui.click(x,y)
+        pyautogui.click(x,y,duration=clickduration)
     # double click
     if textlist[0] == 'dclickp':
-        pyautogui.doubleClick(x,y)
+        pyautogui.doubleClick(x,y,duration=clickduration)
     # right click
     if textlist[0] == 'rclickp':
-        pyautogui.rightClick(x,y)
+        pyautogui.rightClick(x,y,duration=clickduration)
     # move to target
     if textlist[0] == 'movep':
-        pyautogui.moveTo(x,y)
+        pyautogui.moveTo(x,y,duration=clickduration)
     # drag to taget
     if textlist[0] == 'dragp':
-        pyautogui.dragTo(x,y,1,button='left')
+        pyautogui.dragTo(x,y,1,button='left',duration=dragduration)
 
     # postprocessing
     util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
@@ -112,6 +116,7 @@ def typingS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
+    interval = option.get('interval')
 
     # output to screen
     # keyboard typing
@@ -120,6 +125,7 @@ def typingS(textlist):
         pyperclip.copy(textlist[1])
         pyautogui.hotkey('ctrl','v')
         pyperclip.copy(tmp)
+        #pyautogui.typewrite(textlist[1],interval=interval)
     # press one key
     if textlist[0] == 'press':
         pyautogui.press(textlist[1])
@@ -523,16 +529,16 @@ def jumpurlS(textlist):
     time.sleep(pause)
 
 #date copy operation
-#getdate/YYYYMMDD/year=1/month=1/date=1/string=firstday/
-def getdateS(textlist):
+#date/YYYYMMDD/year=1/month=1/day=1/string=firstday/
+def dateS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     year = option.get('year')
     month = option.get('month')
-    date = option.get('date')
+    day = option.get('day')
     string = option.get('string')
 
-    text = util.getdatetime(textlist[1],year,month,date,string)
+    text = util.getdatetime(textlist[1],year,month,day,string)
     pyperclip.copy(text)
 
     # postprocessing
@@ -669,9 +675,9 @@ def callS(txt):
     # jumpurl
     if txtlistlist[0] == 'jumpurl':
         jumpurlS(txtlistlist)
-    # getdate
-    if txtlistlist[0] == 'getdate':
-        getdateS(txtlistlist)
+    # date
+    if txtlistlist[0] == 'date':
+        dateS(txtlistlist)
 
 # start skill
 def startS(skill):
@@ -690,8 +696,51 @@ def startS(skill):
         callS(txtlist[skillidx])
         skillidx += 1
 
+# multi
+def multi(name='skill1.txt'):
+    # global value
+    global txtpath
+    # loop while flg become True
+    while True:
+        # if can get args, set argv, else set skill1.txt
+        startS(txtpath+name)
+        # if flg is true, break this loop
+        if flg == True:
+            break
+
+# init
+def init():
+    # global value
+    global savfile
+    global txtpath
+    # determine if application is a script file or frozen exe
+    if getattr(sys, 'frozen', False):
+        applicationpath = os.path.dirname(sys.executable)
+    else:
+        applicationpath = os.path.dirname(__file__)
+    # get exceute file path
+    # __file__ : [absolute path + file name] and get folder path by dirname(__file__)
+    if os.path.dirname(applicationpath) != '':
+        # default file path change to exec file path for process
+        os.chdir(applicationpath)
+
+    # set config.ini parameter
+    configini = configparser.ConfigParser()
+    configini.read('config.ini',encoding='utf-8')
+    txtpath = configini.get('SKILL','TxtPath')
+    savfile = configini.get('SKILL','SavFile')
+
 # main
 def main():
+    # global value
+    global flg
+    global txtpath
+
+    # main loop flg set False
+    flg = False
+    # get command line vector
+    args = sys.argv
+
     # loop while flg become True
     while True:
         # if can get args, set argv, else set skill1.txt
@@ -703,23 +752,6 @@ def main():
         if flg == True:
             break
 
-# get exceute file path
-# __file__ : [absolute path + file name] and get folder path by dirname(__file__)
-if os.path.dirname(__file__) != '':
-    # default file path change to exec file path for process
-    os.chdir(os.path.dirname(__file__))
-
-# set config.ini parameter
-configini = configparser.ConfigParser()
-configini.read('config.ini',encoding='utf-8')
-
-txtpath = configini.get('SKILL','TxtPath')
-savfile = configini.get('SKILL','SavFile')
-
-# main loop flg set False
-flg = False
-# get command line vector
-args = sys.argv
-
+init()
 if __name__ == '__main__':
     main()

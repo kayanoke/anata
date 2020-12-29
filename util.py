@@ -3,6 +3,8 @@
 
 # file path and control
 import os
+# determine exe or script
+import sys
 # init config
 import configparser
 # GUI automation
@@ -22,6 +24,9 @@ def setoption(textlist):
     global paustim
     global accurcy
     global strings
+    global clidura
+    global dradura
+    global intervl
     # initialize dafault parameter
     option = {}
     option['pause'] = paustim
@@ -36,7 +41,10 @@ def setoption(textlist):
     option['string'] = strings
     option['year'] = 0
     option['month'] = 0
-    option['date'] = 0
+    option['day'] = 0
+    option['clickduration'] = clidura
+    option['dragduration'] = dradura
+    option['interval'] = intervl
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
@@ -112,9 +120,21 @@ def setoption(textlist):
         if datalist[0] == 'month':
             option['month'] = int(datalist[1])
             continue
-        # date
-        if datalist[0] == 'date':
-            option['date'] = int(datalist[1])
+        # day
+        if datalist[0] == 'day':
+            option['day'] = int(datalist[1])
+            continue
+        # clickduration
+        if datalist[0] == 'clickduration':
+            option['clickduration'] = float(datalist[1])
+            continue
+        # dragduration
+        if datalist[0] == 'dragduration':
+            option['dragduration'] = float(datalist[1])
+            continue
+        # interval
+        if datalist[0] == 'interval':
+            option['interval'] = float(datalist[1])
             continue
     # initialize dafault parameter
     option.setdefault('pause',paustim)
@@ -133,6 +153,12 @@ def setoption(textlist):
     option.setdefault('quantity',0)
     option.setdefault('out',False)
     option.setdefault('string','')
+    option.setdefault('year',0)
+    option.setdefault('month',0)
+    option.setdefault('day',0)
+    option.setdefault('clickduration',clidura)
+    option.setdefault('dragduration',dradura)
+    option.setdefault('interval',intervl)
     return option
 
 # locate on screen
@@ -269,11 +295,16 @@ def getdatetime(format,valuey,valuem,valued,string):
     format = format.replace('by','%S')
     return date.strftime(format)
 
+# determine if application is a script file or frozen exe
+if getattr(sys, 'frozen', False):
+    applicationpath = os.path.dirname(sys.executable)
+else:
+    applicationpath = os.path.dirname(__file__)
 # get exceute file path
 # __file__ : [absolute path + file name] and get folder path by dirname(__file__)
-if os.path.dirname(__file__) != '':
+if os.path.dirname(applicationpath) != '':
     # default file path change to exec file path for process
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(applicationpath)
 
 # set config.ini parameter
 configini = configparser.ConfigParser()
@@ -288,3 +319,6 @@ savfile = configini.get('SKILL','SavFile')
 strings = configini.get('SKILL','Strings')
 uppcase = configini.get('SKILL','UppCase')
 lowcase = configini.get('SKILL','LowCase')
+clidura = float(configini.get('SKILL','CliDura'))
+dradura = float(configini.get('SKILL','DraDura'))
+intervl = float(configini.get('SKILL','Intervl'))
