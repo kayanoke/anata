@@ -19,7 +19,7 @@ import configparser
 # itertools
 import itertools
 # multiprocess
-import multiprocessing
+from multiprocessing import Process, freeze_support
 #anata.py
 import anata
 
@@ -49,7 +49,7 @@ def eventfunction(event):
         canvas.create_rectangle(uplx,uply,lowrx,lowry,width=2,outline='red',tags='tangle'+str(number))
         playsound.playsound(sndpath+'start.wav')
         # exec skill unsynchronize
-        proclist[number] = multiprocessing.Process(target=anata.multi,args=('skill'+str(number+1)+'.txt',))
+        proclist[number] = Process(target=anata.multi,args=('skill'+str(number+1)+'.txt',))
         proclist[number].start()
         # after function
         root.after(5000,repeat,number)
@@ -159,4 +159,5 @@ def main():
     root.mainloop()
 
 if __name__ == '__main__':
+    freeze_support()
     main()
