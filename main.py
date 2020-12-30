@@ -66,7 +66,7 @@ def repeat(number):
         return
     # continue after function
     if onofflist[number] == 1:
-        root.after(5000, repeatfunc,number)
+        root.after(5000, repeat,number)
 
 # get exceute file path
 # __file__ : [absolute path + file name] and get folder path by dirname(__file__)
