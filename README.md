@@ -2,7 +2,9 @@
 # ★★★anata★★★
 # ★★★★★★★★★
 require playsound pyautogui pyperclip library
+
 Please donate from this link. Donations will motivate me. Of the donated money, 300 yen will be used for my sweets memories.
+
 https://paypal.me/familytec
 
 ## い　click operation by image recognition
