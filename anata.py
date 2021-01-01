@@ -138,6 +138,13 @@ def typingS(textlist):
     # press multi keys
     if textlist[0] == 'hotkey':
         pyautogui.hotkey(textlist[1],textlist[2])
+    # press triplekey keys
+    if textlist[0] == 'triplekey':
+        pyautogui.keyDown(textlist[1])
+        pyautogui.keyDown(textlist[2])
+        pyautogui.press(textlist[3])
+        pyautogui.keyUp(textlist[1])
+        pyautogui.keyUp(textlist[2])
 
     # postprocessing
     util.setLog(textlist[1]+' wo '+textlist[0])
@@ -372,17 +379,17 @@ def forS(textlist):
         callS(txtlist[start-1+j])
 
 # clipboard operation
-#(ccopy|cpaste)/★/pause=5/
+#(copy|paste)/★/pause=5/
 def clipS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
 
     # copy to clipboard
-    if textlist[0] == 'ccopy':
+    if textlist[0] == 'copy':
         pyperclip.copy(textlist[1])
     # paste with keyboard typing
-    if textlist[0] == 'cpaste':
+    if textlist[0] == 'paste':
         pyautogui.hotkey('ctrl','v')
 
     # postprocessing
@@ -545,6 +552,26 @@ def dateS(textlist):
     util.setLog(text+' copy')
     util.soundasync(textlist[0]+'.wav')
 
+# unill and click operation
+def meikaS(textlist):
+    # set option parameter
+    #meika/1.png/0~3/a~~~
+    foruntill = []
+    forclick = []
+    i = 0
+    for text in textlist:
+        if i == 0:
+            foruntill.append('untill')
+            forclick.append('dummy')
+        elif i == 2:
+            forclick[0] = text
+        else:
+            foruntill.append(text)
+            forclick.append(text)
+        i += 1
+    untillS(foruntill)
+    clickS(forclick)
+
 # analysis and call operation
 def callS(txt):
     # global value
@@ -560,7 +587,7 @@ def callS(txt):
         clickS(txtlistlist)
     # rclick
     if txtlistlist[0] == 'rclick':
-            clickS(txtlistlist)
+        clickS(txtlistlist)
     # move
     if txtlistlist[0] == 'move':
         clickS(txtlistlist)
@@ -600,6 +627,9 @@ def callS(txt):
     # hotkey
     if txtlistlist[0] == 'hotkey':
         typingS(txtlistlist)
+    # triplekey
+    if txtlistlist[0] == 'triplekey':
+        typingS(txtlistlist)
     # pause
     if txtlistlist[0] == 'pause':
         pauseS(txtlistlist)
@@ -627,11 +657,11 @@ def callS(txt):
     # for
     if txtlistlist[0] == 'for':
         forS(txtlistlist)
-    # ccopy
-    if txtlistlist[0] == 'ccopy':
+    # copy
+    if txtlistlist[0] == 'copy':
         clipS(txtlistlist)
-    # cpaste
-    if txtlistlist[0] == 'cpaste':
+    # paste
+    if txtlistlist[0] == 'paste':
         clipS(txtlistlist)
     # untill
     if txtlistlist[0] == 'untill':
@@ -678,6 +708,9 @@ def callS(txt):
     # date
     if txtlistlist[0] == 'date':
         dateS(txtlistlist)
+    # meika
+    if txtlistlist[0] == 'meika':
+        meikaS(txtlistlist)
 
 # start skill
 def startS(skill):
@@ -700,6 +733,7 @@ def startS(skill):
 def multi(name='skill1.txt'):
     # global value
     global txtpath
+    global flg
     # loop while flg become True
     while True:
         # if can get args, set argv, else set skill1.txt
@@ -713,6 +747,9 @@ def init():
     # global value
     global savfile
     global txtpath
+    global flg
+    # main loop flg set False
+    flg = False
     # determine if application is a script file or frozen exe
     if getattr(sys, 'frozen', False):
         applicationpath = os.path.dirname(sys.executable)
@@ -736,8 +773,6 @@ def main():
     global flg
     global txtpath
 
-    # main loop flg set False
-    flg = False
     # get command line vector
     args = sys.argv
 
@@ -747,7 +782,7 @@ def main():
         if len(args) > 1:
             startS(txtpath+str(args[1]))
         else:
-            startS(txtpath+'skill1.txt')
+            startS(txtpath+'skill3.txt')
         # if flg is true, break this loop
         if flg == True:
             break
