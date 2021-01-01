@@ -122,8 +122,10 @@ def typingS(textlist):
     # keyboard typing
     if textlist[0] == 'typing':
         tmp = pyperclip.paste()
+        print(tmp,pyperclip.paste(),textlist[1])
         pyperclip.copy(textlist[1])
         pyautogui.hotkey('ctrl','v')
+        time.sleep(1)
         pyperclip.copy(tmp)
         #pyautogui.typewrite(textlist[1],interval=interval)
     # press one key
@@ -497,10 +499,14 @@ def saveS(textlist):
 #(replace|upper|lower|uppercase|lowercase|extract)/★/■/
 def textS(textlist):
     tmp = textlist[1]
+    # set option parameter
+    option = util.setoption(textlist)
+    string = option.get('string')
     check = util.checktarget(tmp)
     #if string is nothing or clip, get clipboard
     if check == 'clip' or string == '':
         tmp = pyperclip.paste()
+        print(tmp)
     if textlist[0] == 'replace':
         tmp = tmp.replace(textlist[1], textlist[2])
     if textlist[0] == 'upper':
@@ -515,7 +521,7 @@ def textS(textlist):
         tmp = util.geturl(tmp)
     pyperclip.copy(tmp)
     # postprocessing
-    util.setLog(tmp)
+    util.setLog('clip : '+tmp)
     util.soundasync(textlist[0]+'.wav')
 
 #jumpurl/pause=5/
