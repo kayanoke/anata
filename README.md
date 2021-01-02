@@ -1,11 +1,47 @@
+# RPA script with only text file and image file
 # ★★★★★★★★★
 # ★★★anata★★★
 # ★★★★★★★★★
-require playsound pyautogui pyperclip library
+require pyautogui opencv pyperclip library 
 
 ## Please donate from this link. Donations will motivate me. Of the donated money, 300 yen will be used for my sweets memories.
 
 ## https://paypal.me/familytec
+
+## how to use
+    0. please you write operation command to skill.txt in text folder
+    1. exec main.py by start.bat ($ python main.py)
+    2. click icon to start skill. icon will display red frame
+    3. if you want to exit, click the icon. icon will delete red frame
+
+## config parameter
+    ### [MAIN]
+    RootTtl : main gui title
+    IconSiz : main gui icon size
+    IconRow : main gui icon rows
+    IconCol : main gui icon columns
+    TitlIcn : main gui title icon
+    TopMost : True -> main gui display top
+    DefIcon : main gui default icon image
+    AftTime : main gui redrawing cycle
+    WinXPos : main gui x position　from the right
+    WinYPos : main gui u position　from the down
+    # [SKILL]
+    IcnPath : icon file path
+    SndPath : sound file path
+    ImgPath : image file path
+    TxtPath : text file path
+    PausTim : default pause time
+    Accurcy : default image recognize accuracy
+    SavFile : save operation file
+    Strings : default string text
+    CliDura : default click duration
+    DraDura : default drag duration
+    Intervl : default typing interbal
+    UppCase : upper case strings
+    LowCase : lower case strings
+    ### [SKILL1]
+    not used
 
 ## い　click operation by image recognition
     name / image / accuracy / shiftposition / pause /
