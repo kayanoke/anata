@@ -9,7 +9,7 @@ require pyautogui opencv pyperclip library
 ## https://paypal.me/familytec
 
 ## how to use
-    0. please you write operation command to skill.txt in text folder
+    0. please you write operation command to skill.txt in text folder. and collect image file in image folder.
     1. exec main.py by start.bat ($ python main.py)
     2. click icon to start skill. icon will display red frame
     3. if you want to exit, click the icon. icon will delete red frame
