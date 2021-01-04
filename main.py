@@ -8,7 +8,7 @@ import os
 # determine exe or script
 import sys
 # play sound file
-import playsound
+#import playsound
 # GUI
 import tkinter
 # image
@@ -22,20 +22,15 @@ import itertools
 import multiprocessing
 # log
 import logging
-from logging.handlers import RotatingFileHandler
 #anata.py
 import anata
 
-#logformatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-#myhandler = logging.handlers.RotatingFileHandler('logger.log',mode='a',maxBytes=100000,encoding=None,delay=0)
-#myhandler.setFormatter(logformatter)
-#myhandler.setLevel(logging.DEBUG)
-#log = logging.getLogger('root')
-#log.setLevel(logging.DEBUG)
-#log.addHandler(myhandler)
+#logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
+#logging.debug('main.py start')
 
 # closing event
 def onclosing():
+    #logging.debug('onclosing start')
     global proclist
     global root
     # kill all multiprocess
@@ -46,9 +41,11 @@ def onclosing():
     finally:
         # exit root
         root.destroy()
+    #logging.debug('onclosing end')
 
 # icon click event
 def eventfunction(event):
+    #logging.debug('eventfunction start')
     # global value
     global onofflist
     global canvas
@@ -72,7 +69,7 @@ def eventfunction(event):
         lowry = -1 + (yy+1) * iconsiz
         # create red rectangle
         canvas.create_rectangle(uplx,uply,lowrx,lowry,width=2,outline='red',tags='tangle'+str(number))
-        playsound.playsound(sndpath+'start.wav')
+        #playsound.playsound(sndpath+'start.wav')
         # exec skill unsynchronize
         proclist[number] = multiprocessing.Process(target=anata.multi,args=('skill'+str(number+1)+'.txt',))
         proclist[number].start()
@@ -84,9 +81,11 @@ def eventfunction(event):
         canvas.delete('tangle'+str(number))
         # kill process
         proclist[number].terminate()
+    #logging.debug('eventfunction end')
 
 # after function
 def repeat(number):
+    #logging.debug('repeat start')
     # global value
     global onofflist
     global canvas
@@ -102,8 +101,10 @@ def repeat(number):
     # continue after function
     if onofflist[number] == 1:
         root.after(afttime,repeat,number)
+    #logging.debug('repeat end')
 
 def main():
+    #logging.debug('main start')
     # global value
     global onofflist
     global canvas
@@ -194,8 +195,11 @@ def main():
     # window size fixed
     root.resizable(width=False,height=False)
     root.mainloop()
+    #logging.debug('main end')
 
 if __name__ == '__main__':
     # it is for exe with multiprocessing
     multiprocessing.freeze_support()
     main()
+
+#logging.debug('main.py end')

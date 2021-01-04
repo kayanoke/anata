@@ -1,1 +1,2 @@
+click/sample1.png/
 end/

@@ -29,10 +29,17 @@ import itertools
 import util
 # regex
 import re
+# log
+import logging
+
+#logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
+#logging.debug('anata.py start')
 
 # click operation by image recognition
 #(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/shiftpin=12,12/pause=1/
 def clickS(textlist):
+    #logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
+    #logging.debug('clickS start')
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -73,6 +80,7 @@ def clickS(textlist):
     util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
     util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
+    #logging.debug('clickS end')
 
 # click operation click by position
 #(clickp|dclickp|rclickp|movep|dragp|clickz)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
@@ -720,6 +728,7 @@ def callS(txt):
 
 # start skill
 def startS(skill):
+    #logging.debug('startS start')
     # global value
     global skillidx
     global txtlist
@@ -734,6 +743,7 @@ def startS(skill):
             break
         callS(txtlist[skillidx])
         skillidx += 1
+    #logging.debug('startS end')
 
 # multi
 def multi(name='skill1.txt'):
@@ -750,6 +760,7 @@ def multi(name='skill1.txt'):
 
 # init
 def init():
+    #logging.debug('init start')
     # global value
     global savfile
     global txtpath
@@ -772,9 +783,11 @@ def init():
     configini.read('config.ini',encoding='utf-8')
     txtpath = configini.get('SKILL','TxtPath')
     savfile = configini.get('SKILL','SavFile')
+    #logging.debug('init end')
 
 # main
 def main():
+    #logging.debug('main start')
     # global value
     global flg
     global txtpath
@@ -788,11 +801,14 @@ def main():
         if len(args) > 1:
             startS(txtpath+str(args[1]))
         else:
-            startS(txtpath+'skill3.txt')
+            startS(txtpath+'skill1.txt')
         # if flg is true, break this loop
         if flg == True:
             break
+    #logging.debug('main end')
 
 init()
 if __name__ == '__main__':
     main()
+
+#logging.debug('anata.py end')

@@ -1,2 +1,2 @@
-click/red.png/
+typing/TEST/
 end/

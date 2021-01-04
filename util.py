@@ -12,11 +12,16 @@ import pyautogui
 # multi threading
 import threading
 # play sound file
-import playsound
+#import playsound
 # date time
 import datetime
 # dateutil
 import dateutil.relativedelta
+# log
+import logging
+
+#logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
+#logging.debug('util.py start')
 
 # set option parameter
 def setoption(textlist):
@@ -258,15 +263,17 @@ def setLog(text):
 
 # playsound internal process
 def playsoundIP(name):
+    return
     # global value
-    global sndpath
-    if checkwav(name) == True:
-        playsound.playsound(sndpath+name)
+    #global sndpath
+    #if checkwav(name) == True:
+        #playsound.playsound(sndpath+name)
 
 # playsound threading process
 def soundasync(name):
-    thread = threading.Thread(target=playsoundIP,kwargs={'name': name})
-    thread.start()
+    return
+    #thread = threading.Thread(target=playsoundIP,kwargs={'name': name})
+    #thread.start()
 
 # get date time
 def getdatetime(format,valuey,valuem,valued,string):
@@ -322,3 +329,5 @@ lowcase = configini.get('SKILL','LowCase')
 clidura = float(configini.get('SKILL','CliDura'))
 dradura = float(configini.get('SKILL','DraDura'))
 intervl = float(configini.get('SKILL','Intervl'))
+
+#logging.debug('util.py end')
