@@ -132,11 +132,11 @@ require pyautogui opencv pyperclip library
      2. string : copy string for ccopy
      3. pause : pause for seconds default:pause=0
 
-## を　wait untill match operation
+## を　wait until match operation
     name / image / targetout / accuracy / pause /
     name / string / targetout / accuracy / pause /
-    untill/(★.png|string)/out=True/accuracy=0.8/pause=1/
-     1. name : operation name -> untill:wait untill match
+    until/(★.png|string)/out=True/accuracy=0.8/pause=1/
+     1. name : operation name -> until:wait until match
      2. image : image recognition file(png)
      3. string : match to clipboard text and enable to regex
      4. targetout : True:target out, False:target in

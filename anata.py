@@ -119,7 +119,7 @@ def clickpS(textlist):
     time.sleep(pause)
 
 # key operation
-#(typing|press|keydown|keyup|hotkey)/hello(/v)/pause=1/
+#(typing|press|keydown|keyup|hotkey|triplekey)/hello(/v)/pause=1/
 def typingS(textlist):
     # set option parameter
     option = util.setoption(textlist)
@@ -330,11 +330,11 @@ def ifS(textlist):
         if flg == True:
             util.soundasync('bunkiT.wav')
             skillidx = int(textlist[2]) - 2
-            util.setLog('True : go to '+int(skillidx+1))
+            util.setLog('True : go to '+str(skillidx+1))
         else:
             util.soundasync('bunkiF.wav')
             skillidx = int(textlist[3]) - 2
-            util.setLog('False : go to '+int(skillidx+1))
+            util.setLog('False : go to '+str(skillidx+1))
         return
     # target is not image
     target = textlist[1]
@@ -368,11 +368,11 @@ def ifS(textlist):
     if flg == True:
         util.soundasync('bunkiT.wav')
         skillidx = int(textlist[4]) - 2
-        util.setLog('True : go to '+int(skillidx+1))
+        util.setLog('True : go to '+str(skillidx+1))
     else:
         util.soundasync('bunkiF.wav')
         skillidx = int(textlist[5]) - 2
-        util.setLog('False : go to '+int(skillidx+1))
+        util.setLog('False : go to '+str(skillidx+1))
 
 # repete operation
 #for/quantity=5/start=5/length=10
@@ -406,9 +406,9 @@ def clipS(textlist):
     util.soundasync(textlist[0]+'.wav')
     time.sleep(pause)
 
-# wait untill match operation
-#untill/(★.png|string)/out=True/accuracy=0.8/pause=1/
-def untillS(textlist):
+# wait until match operation
+#until/(★.png|string)/out=True/accuracy=0.8/pause=1/
+def untilS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -566,24 +566,24 @@ def dateS(textlist):
     util.setLog(text+' copy')
     util.soundasync(textlist[0]+'.wav')
 
-# unill and click operation
+# untilland click operation
+#meika/1.png/0~3/a~~~
 def meikaS(textlist):
     # set option parameter
-    #meika/1.png/0~3/a~~~
-    foruntill = []
+    foruntil = []
     forclick = []
     i = 0
     for text in textlist:
         if i == 0:
-            foruntill.append('untill')
+            foruntil.append('until')
             forclick.append('dummy')
         elif i == 2:
             forclick[0] = text
         else:
-            foruntill.append(text)
+            foruntil.append(text)
             forclick.append(text)
         i += 1
-    untillS(foruntill)
+    untilS(foruntil)
     clickS(forclick)
 
 # analysis and call operation
@@ -677,9 +677,9 @@ def callS(txt):
     # paste
     if txtlistlist[0] == 'paste':
         clipS(txtlistlist)
-    # untill
-    if txtlistlist[0] == 'untill':
-        untillS(txtlistlist)
+    # until
+    if txtlistlist[0] == 'until':
+        untilS(txtlistlist)
     # scrollup
     if txtlistlist[0] == 'scrollup':
         scrollS(txtlistlist)

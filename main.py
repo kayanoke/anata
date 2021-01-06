@@ -132,7 +132,7 @@ def main():
     configini = configparser.ConfigParser()
     configini.read('config.ini',encoding='utf-8')
     # get config parameter
-    rootttl = configini.get('MAIN','rootttl')
+    rootttl = configini.get('MAIN','rootTtl')
     iconsiz = int(configini.get('MAIN','IconSiz'))
     iconrow = int(configini.get('MAIN','IconRow'))
     iconcol = int(configini.get('MAIN','IconCol'))

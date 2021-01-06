@@ -1,0 +1,179 @@
+使い方
+テキストの内容は上から順に処理されます。
+1単語目に処理名が指定された場合のみ指示が実行されます。それ以外が設定された場合、その行は読み飛ばされます。
+例： この場合sample1.pngをクリックした後sample2.pngをクリックします。
+　　　click/sample1.png/
+　　　click/sample2.png/
+半角スラッシュ（/）が区切り文字です。文字列として半角スラッシュを使いたい場合[sla]を代わりに使用してください。
+例：　typing/https:[sla][sla]yahoo.co.jp/ とした場合、https://yahoo.co.jpが出力されます。
+オプションは半角=で値を指定できます。指定がない場合一部を除きデフォルト値が設定されます。
+例：　click/sample1.png/pause=5/accuracy=1.0/ とした場合、pauseに5、accuracyに1.0が設定されます。
+オプションのデフォルト値はconfig.iniで設定できます。
+画像ファイルは実行フォルダ内のimageフォルダを参照します。
+
+クリック
+click/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+ 画面を画像認識し、一致した座標の中心をクリックします。
+ accuracyで画像認識精度、shiftpinでクリック個所の移動、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
+dclick/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+ 画面を画像認識し、一致した座標の中心をダブルクリックします。
+ オプションはclickと同様のものが使用できます。
+rclick/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+ 画面を画像認識し、一致した座標の中心を右クリックします。
+ オプションはclickと同様のものが使用できます。
+move/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+ 画面を画像認識し、一致した座標の中心までマウスを移動します。
+ オプションはclickと同様のものが使用できます。
+drag/★.png/accuracy=0.8/shiftpin=12,12/pause=1/dragduration=0.5/
+ 画面を画像認識し、一致した座標の中心までドラッグします。
+ オプションはマウスの移動速度をdragdurationで設定でき、他はclickと同様のものが使用できます。
+ dragは移動速度により正常に動作しないことがあるため個別に設定できるようオプション名が異なっています、
+clickp/x=500/y=200/pause=1/clickduration=0.5/
+ 指定した座標をクリックします。
+ xでx座標、yでy座標、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
+dclickp/x=500/y=200/pause=1/clickduration=0.5/
+ 指定した座標をダブルクリックします。
+ オプションはclickpと同様のものが使用できます。
+rclickp/x=500/y=200/pause=1/clickduration=0.5/
+ 指定した座標を右クリックします。
+ オプションはclickpと同様のものが使用できます。
+movep/x=500/y=200/pause=1/clickduration=0.5/
+ 指定した座標へマウスを移動します。
+ オプションはclickpと同様のものが使用できます。
+dragp/x=500/y=200/pause=1/dragduration=0.5/
+ 指定した座標へドラッグします。
+ オプションはマウスの移動速度をdragdurationで設定でき、他はclickpと同様のものが使用できます。
+ dragは移動速度により正常に動作しないことがあるため個別に設定できるようオプション名が異なっています、
+clickz/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/clickduration=0.5/
+ 指定した座標内をランダムクリックします。この機能はなくす可能性があります。
+ xmin～xmaxでx座標範囲、ymin～ymaxでy座標範囲、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
+
+キー入力
+typing/hello/pause=1/
+ 設定した文字をキーボード入力します。実際には設定した文字を一時的にクリップボードにコピーし、ctrl+vにより貼り付けを行っています。
+ pauseで処理後の停止時間を設定できます。
+press/ctrl/pause=1/
+ 設定したキーを押します。キー名とキー種はpyautoguiと同一です。
+ pauseで処理後の停止時間を設定できます。
+keydown/ctrl/pause=1/
+ 設定したキーを押し続けます。キー名とキー種はpyautoguiと同一です。keyupによりキー入力を終わらせる必要があります。
+ pauseで処理後の停止時間を設定できます。
+keyup/ctrl/pause=1/
+ 設定したキーを離します。キー名とキー種はpyautoguiと同一です。keydownによりキー入力を行う必要があります。
+ pauseで処理後の停止時間を設定できます。
+hotkey/ctrl/v/pause=1/
+ 設定した２つのキーを同時に押します。キー名とキー種はpyautoguiと同一です。
+ pauseで処理後の停止時間を設定できます。
+triplekey/win/shift/s/pause=1/
+ 設定した３つのキーを同時に押します。キー名とキー種はpyautoguiと同一です。
+ pauseで処理後の停止時間を設定できます。
+
+処理一時停止
+pause/5/
+ 設定した秒数処理を一時停止します。整数のみ使用できます。
+
+処理終了
+end/★.png/accuracy=0.8/
+ 画面を画像認識し、一致した場合、処理を終了します。
+ endを使用しない場合、最終行を処理した後再度最初の行から処理を繰り返します。accuracyで画像認識精度を設定できます。
+end/
+ 即座に処理を終了します。
+
+アプリ起動
+run/C:\\appli\aplli.bat/sync=False/pause=5/
+ 指定したアプリやファイルを実行します。
+ syncをTrueにした場合、同期処理となり、Falseにした場合、非同期処理となります。pauseで処理後の停止時間を設定できます。
+
+ファイル操作
+fmove/C:\\app/1.txt/C:\\app/2.txt/pause=5/
+ ２つめに指定したファイルを３つめへ移動します。
+ pauseで処理後の停止時間を設定できます。
+fcopy/C:\\app/1.txt/C:\\app/2.txt/pause=5/
+ ２つめに指定したファイルを３つめへコピーします。
+ pauseで処理後の停止時間を設定できます。
+fdelete/C:\\app/1.txt/C:\\app/2.txt/pause=5/
+ ２つめに指定したファイルを削除します。
+ pauseで処理後の停止時間を設定できます。
+folder/C:\\app/1.txt/pause=5/
+ ２つめに指定したフォルダを開きます。
+ pauseで処理後の停止時間を設定できます。
+
+条件分岐
+if/1/==/1/5/7/
+ ２つめを左辺、３つめを比較演算子、４つめを右辺とし条件分岐します。
+ 一致する場合、５つめに指定した行まで処理を移動します。それ以外の場合は６つめの行まで処理を移動します。
+ ２つめにclipを設定した場合、クリップボードの内容を左辺として処理を行います。
+if/★.png/5/7/accuracy=0.8/
+ 画面を画像認識し、一致した場合、３つめに指定した行まで処理を移動します。それ以外の場合は４つめの行まで処理を移動します。
+ accuracyで画像認識精度を設定できます。
+
+繰り返し
+for/quantity=5/start=5/length=10
+ 指定回数処理を繰り返しますが、使用は非推奨です。
+
+コピー・貼り付け
+copy/★/pause=5/
+ ２つめに設定した内容をクリップボードにコピーします。
+paste/pause=5/
+ 貼り付けショートカット（ctrl+v）と同一です。
+
+待機
+until/★.png/out=True/accuracy=0.8/pause=1/
+ 画面を画像認識し、一致するまで処理を停止します。
+ accuracyで画像認識精度を設定できます。pauseでリトライ秒数を設定できます。
+ outがTrueの場合、画像が一致しなくなるまで処理を停止します。
+until/string/out=True/accuracy=0.8/pause=1/
+ クリップボードを監視し、２つめの値と一致するまで処理を停止します。
+ pauseでリトライ秒数を設定できます。outがTrueの場合、クリップボードが一致しなくなるまで処理を停止します。
+ ２つめの値には正規表現が使用できます。
+
+スクロール
+scrollup/5/pause=1/
+ 上方向に指定値分スクロールします。pauseで処理後の停止時間を設定できます。
+scrolldown/5/pause=1/
+ 下方向に指定値分スクロールします。pauseで処理後の停止時間を設定できます。
+scrollleft/5/pause=1/
+ 左方向に指定値分スクロールします。pauseで処理後の停止時間を設定できます。
+scrollright/5/pause=1/
+ 右方向に指定値分スクロールします。pauseで処理後の停止時間を設定できます。
+
+文字列保存・読み込み
+save/name/string=★/
+ ２つめに設定した名前でstringに指定した値を保存します。clipを指定した場合、クリップボードの内容を保存します。
+ 保存ファイルはデフォルトでsave.iniです。
+load/name/
+ ２つめに設定した名前をsave.iniから取得し、クリップボードにコピーします。
+
+文字変換
+replace/★/■/string=clip/
+ stringに指定した値をターゲットとに２つめの値を３つめの値に置換します。処理結果はクリップボードにコピーします。
+ stringにclipを設定した場合、クリップボードの内容をターゲットにします。
+upper/string=clip/
+ stringに指定した値をターゲットとに大文字へ変換します。処理結果はクリップボードにコピーします。
+ stringにclipを設定した場合、クリップボードの内容をターゲットにします。
+lower/string=clip/
+ stringに指定した値をターゲットとに小文字へ変換します。処理結果はクリップボードにコピーします。
+ stringにclipを設定した場合、クリップボードの内容をターゲットにします。
+uppercase/string=clip/
+ stringに指定した値をターゲットとに全角文字へ変換します。処理結果はクリップボードにコピーします。
+ stringにclipを設定した場合、クリップボードの内容をターゲットにします。
+ 実際にはconfig.iniに設定した文字列をもとに変換を行います。
+lowercase/string=clip/
+ stringに指定した値をターゲットとに半角文字へ変換します。処理結果はクリップボードにコピーします。
+ stringにclipを設定した場合、クリップボードの内容をターゲットにします。
+ 実際にはconfig.iniに設定した文字列をもとに変換を行います。
+extract/string=clip/
+ stringに指定した値をターゲットとにURLを抽出します。処理結果はクリップボードにコピーします。
+ stringにclipを設定した場合、クリップボードの内容をターゲットにします。
+
+サイトを開く
+jumpurl/pause=5/
+ クリップボードの内容を読み取りURLを開きます。
+ ブラウザはデフォルトのブラウザが開きます。
+
+日付取得
+date/YYYYMMDD/year=1/month=1/day=1/string=firstday/
+ ２つめに指定した形式で日付を取得します。取得結果はクリップボードにコピーします。YYYY,YY,MM,M,DD,D,HH,H,mm,m,ss,sが使用できます。
+ year、month、dayを指定すると日付の増減を行えます。
+ stringにfirstdayを指定した場合、月初日を取得します。
+ stringにlastdayを指定した場合、月末日を取得します。
