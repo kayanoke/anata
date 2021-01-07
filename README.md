@@ -1,4 +1,4 @@
-# RPA script with only text file and image file
+# RPA script with only text and image file
 # ★★★★★★★★★
 # ★★★anata★★★
 # ★★★★★★★★★
@@ -187,3 +187,12 @@ require pyautogui opencv pyperclip library
      6. string : firstday:first day lastday:last day
 
 つねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす
+
+pyautogui
+https://github.com/asweigart/pyautogui
+
+pyperclip
+https://github.com/asweigart/pyperclip
+
+opencv-python
+https://github.com/skvark/opencv-python
