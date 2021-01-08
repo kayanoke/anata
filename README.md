@@ -3,7 +3,7 @@
 # ★★★anata★★★
 # ★★★★★★★★★
 require pyautogui opencv pyperclip library 
-
+検索
 ## Please donate from this link. Donations will motivate me. Of the donated money, 300 yen will be used for my sweets memories.
 
 ## https://paypal.me/familytec

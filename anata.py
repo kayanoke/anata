@@ -87,6 +87,7 @@ def clickS(textlist):
 def clickpS(textlist):
     # set option parameter
     option = util.setoption(textlist)
+    x, y = option.get('x'), option.get('y')
     xmax, xmin, ymax, ymin = option.get('xmax'), option.get('xmin'), option.get('ymax'), option.get('ymin')
     pause = option.get('pause')
     clickduration = option.get('clickduration')
@@ -111,7 +112,7 @@ def clickpS(textlist):
         pyautogui.moveTo(x,y,duration=clickduration)
     # drag to taget
     if textlist[0] == 'dragp':
-        pyautogui.dragTo(x,y,1,button='left',duration=dragduration)
+        pyautogui.dragTo(x,y,button='left',duration=dragduration)
 
     # postprocessing
     util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])

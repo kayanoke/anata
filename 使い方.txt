@@ -1,55 +1,67 @@
 使い方
-半角スラッシュ（/）を区切り文字として、１文節目に処理名、以降に詳細を記載することでユーザの代わりに処理やサポートを行います。
-例：　sample1.pngと一致する画面をクリックする。
-　　　click/sample1.png/
-テキストの内容は上から順に処理されます。
-1文節目に処理名が指定された場合のみ指示が実行されます。それ以外が設定された場合、その行は読み飛ばされます。
-例： この場合sample1.pngをクリックした後sample2.pngをクリックします。
-　　　click/sample1.png/
-　　　click/sample2.png/
-各文節は半角スラッシュ（/）によって区切られます。文字列として半角スラッシュを使いたい場合[sla]を代わりに使用してください。
-例：　typing/https:[sla][sla]yahoo.co.jp/ とした場合、https://yahoo.co.jpが出力されます。
-オプションは半角=で値を指定できます。指定がない場合一部を除きデフォルト値が設定されます。
-例：　click/sample1.png/pause=5/accuracy=1.0/ とした場合、pauseに5、accuracyに1.0が設定されます。
-オプションのデフォルト値はconfig.iniで設定できます。
-画像ファイルは実行フォルダ内のimageフォルダを参照します。
 
+    半角スラッシュ（/）を区切り文字として、１文節目に処理名、以降に詳細を記載することでユーザの代わりに処理やサポートを行います。
+        例：　sample1.pngと一致する画面をクリックする。
+        　　　click/sample1.png/
+    画像ファイルは実行フォルダ内のimageフォルダを参照します。
+        画面から画像を切り抜くにはwindowsキー＋shiftキー＋sキーを押すのが楽です。
+        切り取った画像をimageフォルダに保存してください。
+        画像はPCの解像度や設定により差があるため、PC環境ごとに画面を取り直すことをお勧めします。
+
+    テキストの内容は上から順に処理されます。
+    1文節目に処理名が指定された場合のみ指示が実行されます。それ以外が設定された場合、その行は読み飛ばされます。
+        例： この場合sample1.pngをクリックした後sample2.pngをクリックします。
+        　　　click/sample1.png/
+        　　　click/sample2.png/
+
+    各文節は半角スラッシュ（/）によって区切られます。文字列として半角スラッシュを使いたい場合[sla]を代わりに使用してください。
+        例：　typing/https:[sla][sla]yahoo.co.jp/ とした場合、https://yahoo.co.jpが出力されます。
+
+    オプションは半角=で値を指定できます。指定がない場合一部を除きデフォルト値が設定されます。
+        例：　click/sample1.png/pause=5/accuracy=1.0/ とした場合、pauseに5、accuracyに1.0が設定されます。
+        オプションのデフォルト値はconfig.iniで設定できます。
+
+使用できる処理一覧
 クリック
-click/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
- 画面を画像認識し、一致した座標の中心をクリックします。
- accuracyで画像認識精度、shiftpinでクリック個所の移動、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
-dclick/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
- 画面を画像認識し、一致した座標の中心をダブルクリックします。
- オプションはclickと同様のものが使用できます。
-rclick/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
- 画面を画像認識し、一致した座標の中心を右クリックします。
- オプションはclickと同様のものが使用できます。
-move/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
- 画面を画像認識し、一致した座標の中心までマウスを移動します。
- オプションはclickと同様のものが使用できます。
-drag/★.png/accuracy=0.8/shiftpin=12,12/pause=1/dragduration=0.5/
- 画面を画像認識し、一致した座標の中心までドラッグします。
- オプションはマウスの移動速度をdragdurationで設定でき、他はclickと同様のものが使用できます。
- dragは移動速度により正常に動作しないことがあるため個別に設定できるようオプション名が異なっています、
-clickp/x=500/y=200/pause=1/clickduration=0.5/
- 指定した座標をクリックします。
- xでx座標、yでy座標、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
-dclickp/x=500/y=200/pause=1/clickduration=0.5/
- 指定した座標をダブルクリックします。
- オプションはclickpと同様のものが使用できます。
-rclickp/x=500/y=200/pause=1/clickduration=0.5/
- 指定した座標を右クリックします。
- オプションはclickpと同様のものが使用できます。
-movep/x=500/y=200/pause=1/clickduration=0.5/
- 指定した座標へマウスを移動します。
- オプションはclickpと同様のものが使用できます。
-dragp/x=500/y=200/pause=1/dragduration=0.5/
- 指定した座標へドラッグします。
- オプションはマウスの移動速度をdragdurationで設定でき、他はclickpと同様のものが使用できます。
- dragは移動速度により正常に動作しないことがあるため個別に設定できるようオプション名が異なっています、
-clickz/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/clickduration=0.5/
- 指定した座標内をランダムクリックします。この機能はなくす可能性があります。
- xmin～xmaxでx座標範囲、ymin～ymaxでy座標範囲、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
+    click/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+         画面を画像認識し、一致した座標の中心をクリックします。
+         accuracyで画像認識精度、shiftpinでクリック座標の移動、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
+         画像認識精度は0～1.0の小数点が設定できます。
+         クリック座標の移動はターゲットの中心点からずらした座標をクリックする場合に使用してください。
+         マウスの移動速度は小数点が設定できます。ターゲットまでの移動時間を秒数で指定できます。
+         処理後の停止時間は整数が設定できます。クリック後の停止時間を秒数で指定できます。
+    dclick/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+         画面を画像認識し、一致した座標の中心をダブルクリックします。
+         オプションはclickと同様のものが使用できます。
+    rclick/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+         画面を画像認識し、一致した座標の中心を右クリックします。
+         オプションはclickと同様のものが使用できます。
+    move/★.png/accuracy=0.8/shiftpin=12,12/pause=1/clickduration=0.5/
+         画面を画像認識し、一致した座標の中心までマウスを移動します。
+         オプションはclickと同様のものが使用できます。
+    drag/★.png/accuracy=0.8/shiftpin=12,12/pause=1/dragduration=0.5/
+         画面を画像認識し、一致した座標の中心までドラッグします。
+         オプションはマウスの移動速度をdragdurationで設定でき、他はclickと同様のものが使用できます。
+         dragは移動速度により正常に動作しないことがあるため個別に設定できるようオプション名が異なっています。
+    clickp/x=500/y=200/pause=1/clickduration=0.5/
+         指定した座標をクリックします。
+         xでx座標、yでy座標、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
+    dclickp/x=500/y=200/pause=1/clickduration=0.5/
+         指定した座標をダブルクリックします。
+         オプションはclickpと同様のものが使用できます。
+    rclickp/x=500/y=200/pause=1/clickduration=0.5/
+         指定した座標を右クリックします。
+         オプションはclickpと同様のものが使用できます。
+    movep/x=500/y=200/pause=1/clickduration=0.5/
+         指定した座標へマウスを移動します。
+         オプションはclickpと同様のものが使用できます。
+    dragp/x=500/y=200/pause=1/dragduration=0.5/
+         指定した座標へドラッグします。
+         オプションはマウスの移動速度をdragdurationで設定でき、他はclickpと同様のものが使用できます。
+         dragは移動速度により正常に動作しないことがあるため個別に設定できるようオプション名が異なっています、
+    clickz/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/clickduration=0.5/
+         指定した座標内をランダムクリックします。この機能はなくす可能性があります。
+         xmin～xmaxでx座標範囲、ymin～ymaxでy座標範囲、pauseで処理後の停止時間、clickdurationでマウスの移動速度を設定できます。
 
 キー入力
 typing/hello/pause=1/
