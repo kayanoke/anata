@@ -1,8 +1,1 @@
-rem pyinstaller main.py
-pyinstaller --onefile--noconsole main.py
-xcopy /y *.ini dist
-xcopy /y *.ico dist
-xcopy /y text dist\text\
-xcopy /y image dist\image\
-xcopy /y icon dist\icon\
-xcopy /y sound dist\sound\
+pyinstaller main.py -i favicon.ico --add-data dist_icon;icon --add-data dist_text;text --add-data dist_image;image --add-data favicon.ico;. --add-data config.ini;.
