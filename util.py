@@ -238,7 +238,10 @@ def ulcasetxt(text,case):
         saki = lowcase
     for data in range(len(text)):
         idx = moto.find(text[data])
-        result += saki[idx]
+        if idx == -1:
+            result += text[data]
+        else:
+            result += saki[idx]
     return result
 
 # get one split

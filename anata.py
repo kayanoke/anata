@@ -180,6 +180,7 @@ def endS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     accuracy = option.get('accuracy')
+    out = option.get('out')
 
     # if target parameter is not there, end 
     if len(textlist) == 1:
@@ -194,7 +195,11 @@ def endS(textlist):
         return
     # if target locate on screen, end 
     target = util.locatescreen(textlist[1],accuracy)
-    if target is None:
+    if target is None and out == False:
+        util.setLog('owaranai')
+        util.soundasync('isnai.wav')
+        return
+    if target is not None and out == True:
         util.setLog('owaranai')
         util.soundasync('isnai.wav')
         return
@@ -494,7 +499,7 @@ def saveS(textlist):
             config.add_section('SAVE')
         # write to save file
         config.set('SAVE',textlist[1],string)
-        with open(savfile,'w') as file:
+        with open(savfile,'w',encoding='utf-8') as file:
             config.write(file)
     # load from save file
     if textlist[0] == 'load':
@@ -511,9 +516,8 @@ def textS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     string = option.get('string')
-    check = util.checktarget(tmp)
     #if string is nothing or clip, get clipboard
-    if check == 'clip' or string == '':
+    if string == 'clip' or string == '':
         tmp = pyperclip.paste()
         print(tmp)
     if textlist[0] == 'replace':
@@ -542,6 +546,8 @@ def jumpurlS(textlist):
     target = pyperclip.paste()
     target = util.geturl(target)
     if util.checkurl(target) == False:
+        util.setLog('url janai '+target)
+        util.soundasync(textlist[0]+'.wav')
         return
     # run webbrowser
     webbrowser.open(target)
@@ -747,13 +753,12 @@ def startS(skill):
     #logging.debug('startS end')
 
 # multi
-def multi(name='skill1.txt'):
+def multi(name):
     # global value
     global txtpath
     global flg
     # loop while flg become True
     while True:
-        # if can get args, set argv, else set skill1.txt
         startS(txtpath+name)
         # if flg is true, break this loop
         if flg == True:
