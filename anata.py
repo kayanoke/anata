@@ -136,7 +136,9 @@ def typingS(textlist):
         pyautogui.hotkey('ctrl','v')
         time.sleep(1)
         pyperclip.copy(tmp)
-        #pyautogui.typewrite(textlist[1],interval=interval)
+    # keyboard typing2
+    if textlist[0] == 'typing2':
+        pyautogui.typewrite(textlist[1],interval=interval)
     # press one key
     if textlist[0] == 'press':
         pyautogui.press(textlist[1])
@@ -636,6 +638,9 @@ def callS(txt):
     # typing
     if txtlistlist[0] == 'typing':
         typingS(txtlistlist)
+    # typing2
+    if txtlistlist[0] == 'typing2':
+        typingS(txtlistlist)
     # press
     if txtlistlist[0] == 'press':
         typingS(txtlistlist)
@@ -739,6 +744,7 @@ def startS(skill):
     # global value
     global skillidx
     global txtlist
+    global flg
     # read input text and add to list one line by a time
     with open(skill,mode='r',encoding='utf-8') as f:
         txtlist = f.readlines()
@@ -747,6 +753,9 @@ def startS(skill):
     # loop with skill index to max index
     while True:
         if skillidx >= maxidx:
+            break
+        # if flg is true, break this loop
+        if flg == True:
             break
         callS(txtlist[skillidx])
         skillidx += 1
