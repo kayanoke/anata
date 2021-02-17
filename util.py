@@ -12,7 +12,7 @@ import pyautogui
 # multi threading
 import threading
 # play sound file
-#import playsound
+import playsound
 # date time
 import datetime
 # dateutil
@@ -266,17 +266,22 @@ def setLog(text):
 
 # playsound internal process
 def playsoundIP(name):
-    return
-    # global value
-    #global sndpath
-    #if checkwav(name) == True:
-        #playsound.playsound(sndpath+name)
+    global value
+    global sndpath
+    global soundlg
+    if checkwav(name) == True:
+        playsound.playsound(sndpath+name)
+        print(sndpath+name)
 
 # playsound threading process
 def soundasync(name):
-    return
-    #thread = threading.Thread(target=playsoundIP,kwargs={'name': name})
-    #thread.start()
+    thread = threading.Thread(target=playsoundIP,kwargs={'name': name})
+    thread.start()
+
+# playsound threading process
+def soundlog(name):
+    if soundlg == True:
+        soundasync(name)
 
 # get date time
 def getdatetime(format,valuey,valuem,valued,string):
@@ -332,5 +337,6 @@ lowcase = configini.get('SKILL','LowCase')
 clidura = float(configini.get('SKILL','CliDura'))
 dradura = float(configini.get('SKILL','DraDura'))
 intervl = float(configini.get('SKILL','Intervl'))
+soundlg = bool(configini.get('SKILL','SoundLg'))
 
 #logging.debug('util.py end')

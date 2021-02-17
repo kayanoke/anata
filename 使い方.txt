@@ -200,6 +200,11 @@ date/YYYYMMDD/year=1/month=1/day=1/string=firstday/
  stringにfirstdayを指定した場合、月初日を取得します。
  stringにlastdayを指定した場合、月末日を取得します。
 
+音楽再生
+sound/★.wav/sync=False/pause=5/
+ 指定したファイルを再生します。soundフォルダ内のwavファイルとmp3ファイルを再生できます。
+ syncをTrueにした場合、同期処理となり、Falseにした場合、非同期処理となります。pauseで処理後の停止時間を設定できます。
+
 設定ファイル
 config.iniによりアイコンの数、大きさやオプションパラメータのデフォルト値を設定できます。
 パラメータの削除や誤ったパラメータの設定は誤作動やエラーの原因となります。
@@ -220,6 +225,7 @@ WinYPos : プログラムの表示位置（x座標）
 IcnPath : アイコンの格納フォルダ
 ImgPath : 未使用
 TxtPath : テキストの格納フォルダ
+SoundLg : サウンドログのオンオフ（オフの場合空白）
 PausTim : オプションパラメータ:pauseのデフォルト秒数
 Accurcy : オプションパラメータ:accuracyのデフォルト画像認識精度
 SavFile : オプションパラメータ:save、loadの保存ファイル名

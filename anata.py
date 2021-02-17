@@ -78,7 +78,7 @@ def clickS(textlist):
 
     # postprocessing
     util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
     #logging.debug('clickS end')
 
@@ -116,7 +116,7 @@ def clickpS(textlist):
 
     # postprocessing
     util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
 # key operation
@@ -161,7 +161,7 @@ def typingS(textlist):
 
     # postprocessing
     util.setLog(textlist[1]+' wo '+textlist[0])
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
 # pause operation
@@ -172,7 +172,7 @@ def pauseS(textlist):
 
     # postprocessing
     util.setLog(textlist[1]+' byou tomaru')
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
 
 # end operation
 #end/★.png/accuracy=0.8/
@@ -187,29 +187,29 @@ def endS(textlist):
     # if target parameter is not there, end 
     if len(textlist) == 1:
         util.setLog('owari')
-        util.soundasync(textlist[0]+'.wav')
+        util.soundlog(textlist[0]+'.wav')
         flg = True
         return
     if textlist[1] == '':
         util.setLog('owari')
-        util.soundasync(textlist[0]+'.wav')
+        util.soundlog(textlist[0]+'.wav')
         flg = True
         return
     # if target locate on screen, end 
     target = util.locatescreen(textlist[1],accuracy)
     if target is None and out == False:
         util.setLog('owaranai')
-        util.soundasync('isnai.wav')
+        util.soundlog('isnai.wav')
         return
     if target is not None and out == True:
         util.setLog('owaranai')
-        util.soundasync('isnai.wav')
+        util.soundlog('isnai.wav')
         return
     flg = True
 
     # postprocessing
     util.setLog('owari')
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
 
 # launch app operation
 #run/C:\\appli\aplli.bat/sync=(True|False)/pause=5/
@@ -220,7 +220,7 @@ def runS(textlist):
     sync = option.get('sync')
 
     util.setLog(textlist[1] + ' wo kidou')
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     # run application
     if sync == True:
         # run with synchronize
@@ -241,52 +241,52 @@ def fileS(textlist):
 
     # if file1 is folder, end
     if os.path.isdir(textlist[1]) == True:
-        util.soundasync('isfnai.wav')
+        util.soundlog('isfnai.wav')
         time.sleep(pause)
         return
     # if file1 upper folder is not there, end
     if os.path.exists(os.path.dirname(textlist[1])) == False:
-        util.soundasync('isfnai.wav')
+        util.soundlog('isfnai.wav')
         time.sleep(pause)
         return
     # if file1 is not there, end
     if os.path.exists(textlist[1]) == False:
-        util.soundasync('isfnai.wav')
+        util.soundlog('isfnai.wav')
         time.sleep(pause)
         return
     # file move
     if textlist[0] == 'fmove':
         # if file2 upper folder is not there, end
         if os.path.exists(os.path.dirname(textlist[2])) == False:
-            util.soundasync('isfnai.wav')
+            util.soundlog('isfnai.wav')
             time.sleep(pause)
             return
         # if file2 is there, end
         if os.path.exists(textlist[2]) == True:
-            util.soundasync('isfaru.wav')
+            util.soundlog('isfaru.wav')
             time.sleep(pause)
             return
-        util.soundasync(textlist[0]+'.wav')
+        util.soundlog(textlist[0]+'.wav')
         # file move
         shutil.move(textlist[1],textlist[2])
     # file copy
     if textlist[0] == 'fcopy':
         # if file2 upper folder is not there, end
         if os.path.exists(os.path.dirname(textlist[2])) == False:
-            util.soundasync('isfnai.wav')
+            util.soundlog('isfnai.wav')
             time.sleep(pause)
             return
         # if file2 is there, end
         if os.path.exists(textlist[2]) == True:
-            util.soundasync('isfaru.wav')
+            util.soundlog('isfaru.wav')
             time.sleep(pause)
             return
-        util.soundasync(textlist[0]+'.wav')
+        util.soundlog(textlist[0]+'.wav')
         # file copy
         shutil.copy2(textlist[1],textlist[2])
     # file delete
     if textlist[0] == 'fdelete':
-        util.soundasync(textlist[0]+'.wav')
+        util.soundlog(textlist[0]+'.wav')
         os.remove(textlist[1])
 
     # postprocessing
@@ -301,17 +301,17 @@ def folderS(textlist):
 
     # if folder1 is file, end
     if os.path.isfile(textlist[1]) == True:
-        util.soundasync('isfnai.wav')
+        util.soundlog('isfnai.wav')
         time.sleep(pause)
         return
     # if folder1 is not there, end
     if os.path.exists(textlist[1]) == False:
-        util.soundasync('isfnai.wav')
+        util.soundlog('isfnai.wav')
         time.sleep(pause)
         return
 
     # postprocessing
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     # open explorer with folder path
     subprocess.run('explorer '+textlist[1])
     time.sleep(pause)
@@ -336,11 +336,11 @@ def ifS(textlist):
             flg = True
         # flg is True, go to 1, else go to 2
         if flg == True:
-            util.soundasync('bunkiT.wav')
+            util.soundlog('bunkiT.wav')
             skillidx = int(textlist[2]) - 2
             util.setLog('True : go to '+str(skillidx+1))
         else:
-            util.soundasync('bunkiF.wav')
+            util.soundlog('bunkiF.wav')
             skillidx = int(textlist[3]) - 2
             util.setLog('False : go to '+str(skillidx+1))
         return
@@ -374,11 +374,11 @@ def ifS(textlist):
             flg = True
     # flg is True, go to 1, else go to 2
     if flg == True:
-        util.soundasync('bunkiT.wav')
+        util.soundlog('bunkiT.wav')
         skillidx = int(textlist[4]) - 2
         util.setLog('True : go to '+str(skillidx+1))
     else:
-        util.soundasync('bunkiF.wav')
+        util.soundlog('bunkiF.wav')
         skillidx = int(textlist[5]) - 2
         util.setLog('False : go to '+str(skillidx+1))
 
@@ -390,7 +390,7 @@ def forS(textlist):
     # set option parameter
     option = util.setoption(textlist)
     quantity, start, length = option.get('quantity'), option.get('start'), option.get('length')
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     util.setLog('Loop quanity : '+str(quantity)+' ,start : '+str(start)+' ,length : '+str(length))
     # loop
     for i, j in itertools.product(range(quantity-1),range(length)):
@@ -411,7 +411,7 @@ def clipS(textlist):
         pyautogui.hotkey('ctrl','v')
 
     # postprocessing
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
 # wait until match operation
@@ -474,7 +474,7 @@ def scrollS(textlist):
         pyautogui.hscroll(100*int(textlist[1]))
     # postprocessing
     util.setLog(textlist[1])
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
 # save & load text operation
@@ -509,7 +509,7 @@ def saveS(textlist):
         pyperclip.copy(config.get('SAVE',textlist[1]))
     # postprocessing
     util.setLog(textlist[0]+' '+textlist[1])
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
 
 # clioboard exchange operation
 #(replace|upper|lower|uppercase|lowercase|extract)/★/■/
@@ -537,7 +537,7 @@ def textS(textlist):
     pyperclip.copy(tmp)
     # postprocessing
     util.setLog('clip : '+tmp)
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
 
 #jumpurl/pause=5/
 def jumpurlS(textlist):
@@ -549,13 +549,13 @@ def jumpurlS(textlist):
     target = util.geturl(target)
     if util.checkurl(target) == False:
         util.setLog('url janai '+target)
-        util.soundasync(textlist[0]+'.wav')
+        util.soundlog(textlist[0]+'.wav')
         return
     # run webbrowser
     webbrowser.open(target)
     # postprocessing
     util.setLog('go to '+target)
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
 #date copy operation
@@ -573,9 +573,29 @@ def dateS(textlist):
 
     # postprocessing
     util.setLog(text+' copy')
-    util.soundasync(textlist[0]+'.wav')
+    util.soundlog(textlist[0]+'.wav')
 
-# untilland click operation
+# launch app operation
+#sound/★.wav/sync=False/pause=5/
+def soundS(textlist):
+    # set option parameter
+    option = util.setoption(textlist)
+    pause = option.get('pause')
+    sync = option.get('sync')
+
+    util.setLog(textlist[1] + ' wo nagasu')
+    # play sound
+    if sync == True:
+        # play sound with synchronize
+        util.playsoundIP(textlist[1])
+    if sync == False:
+        # play sound with unsynchronize
+        util.soundasync(textlist[1])
+
+    # postprocessing
+    time.sleep(pause)
+
+# until and click operation
 #meika/1.png/0~3/a~~~
 def meikaS(textlist):
     # set option parameter
@@ -734,6 +754,9 @@ def callS(txt):
     # date
     if txtlistlist[0] == 'date':
         dateS(txtlistlist)
+    # sound
+    if txtlistlist[0] == 'sound':
+        soundS(txtlistlist)
     # meika
     if txtlistlist[0] == 'meika':
         meikaS(txtlistlist)
