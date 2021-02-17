@@ -73,6 +73,9 @@
 typing/hello/pause=1/
  設定した文字をキーボード入力します。実際には設定した文字を一時的にクリップボードにコピーし、ctrl+vにより貼り付けを行っています。
  pauseで処理後の停止時間を設定できます。
+typing2/hello/pause=1/
+ 設定した文字をキーボード入力します。文字によって正常に動作しないことがあります。
+ pauseで処理後の停止時間を設定できます。
 press/ctrl/pause=1/
  設定したキーを押します。キー名とキー種はpyautoguiと同一です。
  pauseで処理後の停止時間を設定できます。
@@ -201,9 +204,14 @@ date/YYYYMMDD/year=1/month=1/day=1/string=firstday/
  stringにlastdayを指定した場合、月末日を取得します。
 
 音楽再生
-sound/★.wav/sync=False/pause=5/
+sound/★(.wav|mp3)/sync=False/pause=5/
  指定したファイルを再生します。soundフォルダ内のwavファイルとmp3ファイルを再生できます。
  syncをTrueにした場合、同期処理となり、Falseにした場合、非同期処理となります。pauseで処理後の停止時間を設定できます。
+
+待機＋マウス操作
+meika/★.png/click/
+ 指定した画像が表示されるまで待機し、表示後マウス操作を行います。
+ ２つめに画像、３つめにマウス操作を指定します。
 
 設定ファイル
 config.iniによりアイコンの数、大きさやオプションパラメータのデフォルト値を設定できます。
@@ -223,7 +231,8 @@ WinXPos : プログラムの表示位置（x座標）
 WinYPos : プログラムの表示位置（x座標）
 [SKILL]
 IcnPath : アイコンの格納フォルダ
-ImgPath : 未使用
+SndPath : 音声の格納フォルダ
+ImgPath : 画像の格納フォルダ
 TxtPath : テキストの格納フォルダ
 SoundLg : サウンドログのオンオフ（オフの場合空白）
 PausTim : オプションパラメータ:pauseのデフォルト秒数

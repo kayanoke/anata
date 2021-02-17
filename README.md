@@ -2,7 +2,7 @@
 # ★★★★★★★★★
 # ★★★anata★★★
 # ★★★★★★★★★
-require pyautogui opencv pyperclip library 
+require pyautogui opencv pyperclip playsound library 
 検索
 ## Please donate from this link. Donations will motivate me. Of the donated money, 300 yen will be used for my sweets memories.
 
@@ -31,6 +31,7 @@ require pyautogui opencv pyperclip library
     SndPath : sound file path
     ImgPath : image file path
     TxtPath : text file path
+    SoundLg : play sound log by True or blunk
     PausTim : default pause time
     Accurcy : default image recognize accuracy
     SavFile : save operation file
@@ -186,7 +187,16 @@ require pyautogui opencv pyperclip library
      5. add date : add date
      6. string : firstday:first day lastday:last day
 
-つねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす
+## つ　play sound operation
+    name / file / synchronize / pause
+    sound/★(.wav|mp3)/sync=False/pause=5/
+     1. name : operation name -> sound:play sound
+     2. file : sound file (WAV or mp3)
+     3. synchronize : True=synchronize,False=unsynchronize
+     4. pause : pause for seconds default:pause=0
+
+
+ねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす
 
 pyautogui
 https://github.com/asweigart/pyautogui
@@ -196,3 +206,6 @@ https://github.com/asweigart/pyperclip
 
 opencv-python
 https://github.com/skvark/opencv-python
+
+playsound
+https://github.com/TaylorSMarks/playsound
