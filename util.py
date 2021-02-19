@@ -283,6 +283,12 @@ def soundlog(name):
     if soundlg == True:
         soundasync(name)
 
+# replace
+def replace(text,before,after):
+    before = before.replace('\\n','\n').replace('\\t','\t').replace('\\r','\r')
+    after = after.replace('\\n','\n').replace('\\t','\t').replace('\\r','\r')
+    return text.replace(before,after)
+
 # get date time
 def getdatetime(format,valuey,valuem,valued,string):
     date = datetime.datetime.now()

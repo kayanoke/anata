@@ -523,7 +523,7 @@ def textS(textlist):
         tmp = pyperclip.paste()
         print(tmp)
     if textlist[0] == 'replace':
-        tmp = tmp.replace(textlist[1], textlist[2])
+        tmp = util.replace(tmp,textlist[1], textlist[2])
     if textlist[0] == 'upper':
         tmp = tmp.upper()
     if textlist[0] == 'lower':
