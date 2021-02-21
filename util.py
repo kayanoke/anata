@@ -53,6 +53,8 @@ def setoption(textlist):
     # initialize option parameter
     for text in textlist:
         datalist = text.split('=')
+        if len(datalist) < 2:
+            continue
         # image reconginition accuracy
         if datalist[0] == 'accuracy':
             option['accuracy'] = float(datalist[1])
