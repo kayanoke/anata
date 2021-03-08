@@ -19,9 +19,8 @@ import datetime
 import dateutil.relativedelta
 # log
 import logging
-
-#logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.debug('util.py start')
+# log
+import logging.config
 
 # set option parameter
 def setoption(textlist):
@@ -262,9 +261,21 @@ def checkurl(text):
             return True
     return False
 
-# output log
-def setLog(text):
-    print(text)
+# output debug level log
+def debugLog(text):
+    logger.debug(text)
+# output info level log
+def infoLog(text):
+    logger.info(text)
+# output warning level log
+def warningLog(text):
+    logger.warning(text)
+# output error level log
+def errorLog(text):
+    logger.error(text)
+# output critical level log
+def criticalLog(text):
+    logger.critical(text)
 
 # playsound internal process
 def playsoundIP(name):
@@ -273,7 +284,7 @@ def playsoundIP(name):
     global soundlg
     if checkwav(name) == True:
         playsound.playsound(sndpath+name)
-        print(sndpath+name)
+        infoLog(sndpath+name)
 
 # playsound threading process
 def soundasync(name):
@@ -329,6 +340,10 @@ if os.path.dirname(applicationpath) != '':
     # default file path change to exec file path for process
     os.chdir(applicationpath)
 
+# set log config
+logging.config.fileConfig('configlog.ini')
+logger = logging.getLogger('root')
+
 # set config.ini parameter
 configini = configparser.ConfigParser()
 configini.read('config.ini',encoding='utf-8')
@@ -346,5 +361,3 @@ clidura = float(configini.get('SKILL','CliDura'))
 dradura = float(configini.get('SKILL','DraDura'))
 intervl = float(configini.get('SKILL','Intervl'))
 soundlg = bool(configini.get('SKILL','SoundLg'))
-
-#logging.debug('util.py end')

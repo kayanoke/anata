@@ -29,17 +29,10 @@ import itertools
 import util
 # regex
 import re
-# log
-import logging
-
-#logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.debug('anata.py start')
 
 # click operation by image recognition
 #(click|dclick|rclick|move|drag)/★.png/accuracy=0.8/shiftpin=12,12/pause=1/
 def clickS(textlist):
-    #logging.basicConfig(filename='logger.log',level=logging.DEBUG,format=' %(asctime)s - %(levelname)s - %(message)s')
-    #logging.debug('clickS start')
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -52,7 +45,7 @@ def clickS(textlist):
     target = util.locatescreen(textlist[1],accuracy)
     # if target is none, end
     if target is None:
-        util.setLog(textlist[1]+' nai')
+        util.infoLog(textlist[1]+' nai')
         time.sleep(pause)
         return
     # target center position
@@ -77,10 +70,9 @@ def clickS(textlist):
         pyautogui.dragTo(x,y,duration=dragduration,button='left')
 
     # postprocessing
-    util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
+    util.infoLog(str(x)+', '+str(y)+' wo '+textlist[0])
     util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
-    #logging.debug('clickS end')
 
 # click operation click by position
 #(clickp|dclickp|rclickp|movep|dragp|clickz)/x=500/y=200/xmax=500/ymax=200/xmin=500/ymin=200/pause=1/
@@ -115,7 +107,7 @@ def clickpS(textlist):
         pyautogui.dragTo(x,y,button='left',duration=dragduration)
 
     # postprocessing
-    util.setLog(str(x)+', '+str(y)+' wo '+textlist[0])
+    util.infoLog(str(x)+', '+str(y)+' wo '+textlist[0])
     util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
@@ -131,7 +123,6 @@ def typingS(textlist):
     # keyboard typing
     if textlist[0] == 'typing':
         tmp = pyperclip.paste()
-        print(tmp,pyperclip.paste(),textlist[1])
         pyperclip.copy(textlist[1])
         pyautogui.hotkey('ctrl','v')
         time.sleep(1)
@@ -160,7 +151,7 @@ def typingS(textlist):
         pyautogui.keyUp(textlist[2])
 
     # postprocessing
-    util.setLog(textlist[1]+' wo '+textlist[0])
+    util.infoLog(textlist[1]+' wo '+textlist[0])
     util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
@@ -171,7 +162,7 @@ def pauseS(textlist):
     time.sleep(int(textlist[1]))
 
     # postprocessing
-    util.setLog(textlist[1]+' byou tomaru')
+    util.infoLog(textlist[1]+' byou tomaru')
     util.soundlog(textlist[0]+'.wav')
 
 # end operation
@@ -186,29 +177,29 @@ def endS(textlist):
 
     # if target parameter is not there, end 
     if len(textlist) == 1:
-        util.setLog('owari')
+        util.infoLog('owari')
         util.soundlog(textlist[0]+'.wav')
         flg = True
         return
     if textlist[1] == '':
-        util.setLog('owari')
+        util.infoLog('owari')
         util.soundlog(textlist[0]+'.wav')
         flg = True
         return
     # if target locate on screen, end 
     target = util.locatescreen(textlist[1],accuracy)
     if target is None and out == False:
-        util.setLog('owaranai')
+        util.infoLog('owaranai')
         util.soundlog('isnai.wav')
         return
     if target is not None and out == True:
-        util.setLog('owaranai')
+        util.infoLog('owaranai')
         util.soundlog('isnai.wav')
         return
     flg = True
 
     # postprocessing
-    util.setLog('owari')
+    util.infoLog('owari')
     util.soundlog(textlist[0]+'.wav')
 
 # launch app operation
@@ -219,7 +210,7 @@ def runS(textlist):
     pause = option.get('pause')
     sync = option.get('sync')
 
-    util.setLog(textlist[1] + ' wo kidou')
+    util.infoLog(textlist[1] + ' wo kidou')
     util.soundlog(textlist[0]+'.wav')
     # run application
     if sync == True:
@@ -338,11 +329,11 @@ def ifS(textlist):
         if flg == True:
             util.soundlog('bunkiT.wav')
             skillidx = int(textlist[2]) - 2
-            util.setLog('True : go to '+str(skillidx+1))
+            util.infoLog('True : go to '+str(skillidx+1))
         else:
             util.soundlog('bunkiF.wav')
             skillidx = int(textlist[3]) - 2
-            util.setLog('False : go to '+str(skillidx+1))
+            util.infoLog('False : go to '+str(skillidx+1))
         return
     # target is not image
     target = textlist[1]
@@ -376,11 +367,11 @@ def ifS(textlist):
     if flg == True:
         util.soundlog('bunkiT.wav')
         skillidx = int(textlist[4]) - 2
-        util.setLog('True : go to '+str(skillidx+1))
+        util.infoLog('True : go to '+str(skillidx+1))
     else:
         util.soundlog('bunkiF.wav')
         skillidx = int(textlist[5]) - 2
-        util.setLog('False : go to '+str(skillidx+1))
+        util.infoLog('False : go to '+str(skillidx+1))
 
 # repete operation
 #for/quantity=5/start=5/length=10
@@ -391,7 +382,7 @@ def forS(textlist):
     option = util.setoption(textlist)
     quantity, start, length = option.get('quantity'), option.get('start'), option.get('length')
     util.soundlog(textlist[0]+'.wav')
-    util.setLog('Loop quanity : '+str(quantity)+' ,start : '+str(start)+' ,length : '+str(length))
+    util.infoLog('Loop quanity : '+str(quantity)+' ,start : '+str(start)+' ,length : '+str(length))
     # loop
     for i, j in itertools.product(range(quantity-1),range(length)):
         callS(txtlist[start-1+j])
@@ -432,10 +423,10 @@ def untilS(textlist):
             # if target is there and out is True, go to next
             # if target is nothing and out is False, go to next
             if target is None and out == True:
-                util.setLog(textlist[1]+' out of screen')
+                util.infoLog(textlist[1]+' out of screen')
                 break
             if target is not None and out == False:
-                util.setLog(textlist[1]+' is displayed')
+                util.infoLog(textlist[1]+' is displayed')
                 break
         else:
             # target is string
@@ -443,17 +434,17 @@ def untilS(textlist):
             # if target is there and out is True, go to next
             # if target is nothing and out is False, go to next
             if target != textlist[1] and out == True:
-                util.setLog(textlist[1]+' out of clipboard')
+                util.infoLog(textlist[1]+' out of clipboard')
                 break
             if target == textlist[1] and out == False:
-                util.setLog(textlist[1]+' clipboard in')
+                util.infoLog(textlist[1]+' clipboard in')
                 break
             # regex search
             if re.search(textlist[1], target) is None and out == True:
-                util.setLog(textlist[1]+' search out')
+                util.infoLog(textlist[1]+' search out')
                 break
             if re.search(textlist[1], target) is not None and out == False:
-                util.setLog(textlist[1]+' search in')
+                util.infoLog(textlist[1]+' search in')
                 break
         time.sleep(pause)
 
@@ -473,7 +464,7 @@ def scrollS(textlist):
     if textlist[0] == 'scrollright':
         pyautogui.hscroll(100*int(textlist[1]))
     # postprocessing
-    util.setLog(textlist[1])
+    util.infoLog(textlist[1])
     util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
@@ -508,7 +499,7 @@ def saveS(textlist):
         # set to clipboard
         pyperclip.copy(config.get('SAVE',textlist[1]))
     # postprocessing
-    util.setLog(textlist[0]+' '+textlist[1])
+    util.infoLog(textlist[0]+' '+textlist[1])
     util.soundlog(textlist[0]+'.wav')
 
 # clioboard exchange operation
@@ -521,7 +512,6 @@ def textS(textlist):
     #if string is nothing or clip, get clipboard
     if string == 'clip' or string == '':
         tmp = pyperclip.paste()
-        print(tmp)
     if textlist[0] == 'replace':
         tmp = util.replace(tmp,textlist[1], textlist[2])
     if textlist[0] == 'upper':
@@ -536,7 +526,7 @@ def textS(textlist):
         tmp = util.geturl(tmp)
     pyperclip.copy(tmp)
     # postprocessing
-    util.setLog('clip : '+tmp)
+    util.infoLog('clip : '+tmp)
     util.soundlog(textlist[0]+'.wav')
 
 #jumpurl/pause=5/
@@ -548,13 +538,13 @@ def jumpurlS(textlist):
     target = pyperclip.paste()
     target = util.geturl(target)
     if util.checkurl(target) == False:
-        util.setLog('url janai '+target)
+        util.infoLog('url janai '+target)
         util.soundlog(textlist[0]+'.wav')
         return
     # run webbrowser
     webbrowser.open(target)
     # postprocessing
-    util.setLog('go to '+target)
+    util.infoLog('go to '+target)
     util.soundlog(textlist[0]+'.wav')
     time.sleep(pause)
 
@@ -572,7 +562,7 @@ def dateS(textlist):
     pyperclip.copy(text)
 
     # postprocessing
-    util.setLog(text+' copy')
+    util.infoLog(text+' copy')
     util.soundlog(textlist[0]+'.wav')
 
 # launch app operation
@@ -583,7 +573,7 @@ def soundS(textlist):
     pause = option.get('pause')
     sync = option.get('sync')
 
-    util.setLog(textlist[1] + ' wo nagasu')
+    util.infoLog(textlist[1] + ' wo nagasu')
     # play sound
     if sync == True:
         # play sound with synchronize
@@ -620,7 +610,7 @@ def callS(txt):
     # global value
     global skillidx
     txtlistlist = util.reptxt(txt)
-    print(skillidx,txtlistlist)
+    util.infoLog(txtlistlist)
     # analysis first text
     # click
     if txtlistlist[0] == 'click':
@@ -763,7 +753,6 @@ def callS(txt):
 
 # start skill
 def startS(skill):
-    #logging.debug('startS start')
     # global value
     global skillidx
     global txtlist
@@ -782,7 +771,6 @@ def startS(skill):
             break
         callS(txtlist[skillidx])
         skillidx += 1
-    #logging.debug('startS end')
 
 # multi
 def multi(name):
@@ -798,7 +786,6 @@ def multi(name):
 
 # init
 def init():
-    #logging.debug('init start')
     # global value
     global savfile
     global txtpath
@@ -821,11 +808,9 @@ def init():
     configini.read('config.ini',encoding='utf-8')
     txtpath = configini.get('SKILL','TxtPath')
     savfile = configini.get('SKILL','SavFile')
-    #logging.debug('init end')
 
 # main
 def main():
-    #logging.debug('main start')
     # global value
     global flg
     global txtpath
@@ -843,10 +828,8 @@ def main():
         # if flg is true, break this loop
         if flg == True:
             break
-    #logging.debug('main end')
 
 init()
+
 if __name__ == '__main__':
     main()
-
-#logging.debug('anata.py end')

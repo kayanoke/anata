@@ -1,2 +1,2 @@
-rem pyinstaller main.py --noconfirm -i favicon.ico --add-data dist_icon;icon --add-data dist_text;text --add-data dist_image;image --add-data sound;sound --add-data favicon.ico;. --add-data config.ini;.
-pyinstaller main.py --noconfirm --noconsole -i favicon.ico --add-data dist_icon;icon --add-data dist_text;text --add-data dist_image;image --add-data sound;sound --add-data favicon.ico;. --add-data config.ini;.
+rem pyinstaller main.py --noconfirm -i favicon.ico --add-data dist_icon;icon --add-data dist_text;text --add-data dist_image;image --add-data sound;sound --add-data favicon.ico;. --add-data config.ini;. --add-data configlog.ini;. --exclude pandas
+pyinstaller main.py --noconfirm --noconsole -i favicon.ico --add-data dist_icon;icon --add-data dist_text;text --add-data dist_image;image --add-data sound;sound --add-data favicon.ico;. --add-data config.ini;. --add-data configlog.ini;. --exclude pandas
