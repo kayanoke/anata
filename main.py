@@ -14,14 +14,14 @@ import tkinter
 # image
 from PIL import ImageTk
 from PIL import Image
-# init config
-import configparser
 # itertools
 import itertools
 # multiprocess
 import multiprocessing
 #anata.py
 import anata
+#util.py
+import util
 
 # closing event
 def onclosing():
@@ -116,22 +116,19 @@ def main():
         # default file path change to exec file path for process
         os.chdir(applicationpath)
 
-    # set config
-    configini = configparser.ConfigParser()
-    configini.read('config.ini',encoding='utf-8')
     # get config parameter
-    rootttl = configini.get('MAIN','rootTtl')
-    iconsiz = int(configini.get('MAIN','IconSiz'))
-    iconrow = int(configini.get('MAIN','IconRow'))
-    iconcol = int(configini.get('MAIN','IconCol'))
-    titlicn = configini.get('MAIN','TitlIcn')
-    deficon = configini.get('MAIN','DefIcon')
-    topmost = bool(configini.get('MAIN','TopMost'))
-    afttime = int(configini.get('MAIN','AftTime'))
-    winxpos = int(configini.get('MAIN','WinXPos'))
-    winypos = int(configini.get('MAIN','WinYPos'))
-    icnpath = configini.get('SKILL','IcnPath')
-    sndpath = configini.get('SKILL','SndPath')
+    rootttl = util.rootttl
+    iconsiz = util.iconsiz
+    iconrow = util.iconrow
+    iconcol = util.iconcol
+    titlicn = util.titlicn
+    deficon = util.deficon
+    topmost = util.topmost
+    afttime = util.afttime
+    winxpos = util.winxpos
+    winypos = util.winypos
+    icnpath = util.icnpath
+    sndpath = util.sndpath
 
     # create window
     root = tkinter.Tk()

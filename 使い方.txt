@@ -1,3 +1,9 @@
+ダウンロード
+    コンソールなし:
+        https://drive.google.com/file/d/1oUfxg81fNeeqc3urx-4pHFdIL0paaOAV/view?usp=sharing
+    コンソールあり:
+        https://drive.google.com/file/d/1deLM4StlPXW2WUoHmfC2jn-lP0B_rU66/view?usp=sharing
+
 使い方
     main.exeを実行すると画面が起動します。
     アイコンをクリックすると処理が実行されます。
@@ -234,7 +240,7 @@ IcnPath : アイコンの格納フォルダ
 SndPath : 音声の格納フォルダ
 ImgPath : 画像の格納フォルダ
 TxtPath : テキストの格納フォルダ
-SoundLg : サウンドログのオンオフ（オフの場合空白）
+SoundLg : サウンドログ　True:オンFalse:オフ
 PausTim : オプションパラメータ:pauseのデフォルト秒数
 Accurcy : オプションパラメータ:accuracyのデフォルト画像認識精度
 SavFile : オプションパラメータ:save、loadの保存ファイル名

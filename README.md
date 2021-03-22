@@ -8,6 +8,12 @@ require pyautogui opencv pyperclip playsound library
 
 ## https://paypal.me/familytec
 
+download exe
+non console:
+https://drive.google.com/file/d/1oUfxg81fNeeqc3urx-4pHFdIL0paaOAV/view?usp=sharing
+console:
+https://drive.google.com/file/d/1deLM4StlPXW2WUoHmfC2jn-lP0B_rU66/view?usp=sharing
+
 ## how to use
     0. please you write operation command to skill.txt in text folder. and collect image file in image folder.
     1. exec main.py by start.bat ($ python main.py)
@@ -31,7 +37,7 @@ require pyautogui opencv pyperclip playsound library
     SndPath : sound file path
     ImgPath : image file path
     TxtPath : text file path
-    SoundLg : play sound log by True or blunk
+    SoundLg : play sound log by True or False
     PausTim : default pause time
     Accurcy : default image recognize accuracy
     SavFile : save operation file

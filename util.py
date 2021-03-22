@@ -348,16 +348,31 @@ logger = logging.getLogger('root')
 configini = configparser.ConfigParser()
 configini.read('config.ini',encoding='utf-8')
 
+rootttl = configini.get('MAIN','rootTtl')
+iconsiz = int(configini.get('MAIN','IconSiz'))
+iconrow = int(configini.get('MAIN','IconRow'))
+iconcol = int(configini.get('MAIN','IconCol'))
+titlicn = configini.get('MAIN','TitlIcn')
+topmost = False
+if configini.get('MAIN','TopMost') == 'True':
+    topmost = True
+deficon = configini.get('MAIN','DefIcon')
+afttime = int(configini.get('MAIN','AftTime'))
+winxpos = int(configini.get('MAIN','WinXPos'))
+winypos = int(configini.get('MAIN','WinYPos'))
+icnpath = configini.get('SKILL','IcnPath')
+sndpath = configini.get('SKILL','SndPath')
 imgpath = configini.get('SKILL','ImgPath')
 txtpath = configini.get('SKILL','TxtPath')
-sndpath = configini.get('SKILL','SndPath')
+soundlg = False
+if configini.get('MAIN','TopMost') == 'True':
+    soundlg = True
 paustim = int(configini.get('SKILL','PausTim'))
 accurcy = float(configini.get('SKILL','Accurcy'))
 savfile = configini.get('SKILL','SavFile')
 strings = configini.get('SKILL','Strings')
-uppcase = configini.get('SKILL','UppCase')
-lowcase = configini.get('SKILL','LowCase')
 clidura = float(configini.get('SKILL','CliDura'))
 dradura = float(configini.get('SKILL','DraDura'))
 intervl = float(configini.get('SKILL','Intervl'))
-soundlg = bool(configini.get('SKILL','SoundLg'))
+uppcase = configini.get('SKILL','UppCase')
+lowcase = configini.get('SKILL','LowCase')
