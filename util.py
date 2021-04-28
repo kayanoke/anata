@@ -342,7 +342,9 @@ if os.path.dirname(applicationpath) != '':
 
 # set log config
 logging.config.fileConfig('configlog.ini')
-logger = logging.getLogger('root')
+logger = logging.getLogger()
+
+infoLog('aaaaa'*120)
 
 # set config.ini parameter
 configini = configparser.ConfigParser()
@@ -365,7 +367,7 @@ sndpath = configini.get('SKILL','SndPath')
 imgpath = configini.get('SKILL','ImgPath')
 txtpath = configini.get('SKILL','TxtPath')
 soundlg = False
-if configini.get('MAIN','TopMost') == 'True':
+if configini.get('SKILL','SoundLg') == 'True':
     soundlg = True
 paustim = int(configini.get('SKILL','PausTim'))
 accurcy = float(configini.get('SKILL','Accurcy'))
