@@ -605,6 +605,32 @@ def meikaS(textlist):
     untilS(foruntil)
     clickS(forclick)
 
+#date copy operation
+#untilKey/Enter/
+def untilKeyS(textlist):
+    # set option parameter
+    #option = util.setoption(textlist)
+    #year = option.get('year')
+    #month = option.get('month')
+    #day = option.get('day')
+    #string = option.get('string')
+
+    util.untilKey(textlist[1])
+
+    # postprocessing
+    util.infoLog('let go next')
+    #util.soundlog(textlist[0]+'.wav')
+
+#date copy operation
+#untilKey/Enter/
+def untilMouseS(textlist):
+
+    util.untilMouse(textlist[1])
+
+    # postprocessing
+    util.infoLog('let go next')
+    #util.soundlog(textlist[0]+'.wav')
+
 # analysis and call operation
 def callS(txt):
     # global value
@@ -750,6 +776,12 @@ def callS(txt):
     # meika
     if txtlistlist[0] == 'meika':
         meikaS(txtlistlist)
+    # meika
+    if txtlistlist[0] == 'untilkey':
+        untilKeyS(txtlistlist)
+    # meika
+    if txtlistlist[0] == 'untilmouse':
+        untilMouseS(txtlistlist)
 
 # start skill
 def startS(skill):

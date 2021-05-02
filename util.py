@@ -21,6 +21,8 @@ import dateutil.relativedelta
 import logging
 # log
 import logging.config
+# key & mouse bind
+import pynput
 
 # set option parameter
 def setoption(textlist):
@@ -329,6 +331,39 @@ def getdatetime(format,valuey,valuem,valued,string):
     format = format.replace('by','%S')
     return date.strftime(format)
 
+# untilKey bind function
+def on_release(key):
+    global releaseKey
+    try:
+        if key.char == releaseKey:
+            return False
+    except AttributeError:
+        if str(key) == 'Key.'+releaseKey:
+            return False
+
+# untilMouse bind function
+def on_click(x, y, button, pressed):
+    global releaseMouse
+    if not pressed:
+        if str(button) == 'Button.'+releaseMouse:
+            return False
+
+# untilKey bind function
+def untilKey(key):
+    global releaseKey
+    releaseKey = key.lower()
+    # collect events until released
+    with pynput.keyboard.Listener(on_release=on_release) as keylistener:
+        keylistener.join()
+
+# untilKey bind function
+def untilMouse(key):
+    global releaseMouse
+    releaseMouse = key.lower()
+    # collect events until released
+    with pynput.mouse.Listener(on_click=on_click) as mouselistener:
+        mouselistener.join()
+
 # determine if application is a script file or frozen exe
 if getattr(sys, 'frozen', False):
     applicationpath = os.path.dirname(sys.executable)
@@ -343,8 +378,6 @@ if os.path.dirname(applicationpath) != '':
 # set log config
 logging.config.fileConfig('configlog.ini')
 logger = logging.getLogger()
-
-infoLog('aaaaa'*120)
 
 # set config.ini parameter
 configini = configparser.ConfigParser()
