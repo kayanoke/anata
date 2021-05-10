@@ -332,7 +332,7 @@ def getdatetime(format,valuey,valuem,valued,string):
     return date.strftime(format)
 
 # untilKey bind function
-def on_release(key):
+def onrelease(key):
     global releaseKey
     try:
         if key.char == releaseKey:
@@ -342,7 +342,7 @@ def on_release(key):
             return False
 
 # untilMouse bind function
-def on_click(x, y, button, pressed):
+def onclick(x, y, button, pressed):
     global releaseMouse
     if not pressed:
         if str(button) == 'Button.'+releaseMouse:
@@ -353,7 +353,7 @@ def untilKey(key):
     global releaseKey
     releaseKey = key.lower()
     # collect events until released
-    with pynput.keyboard.Listener(on_release=on_release) as keylistener:
+    with pynput.keyboard.Listener(on_release=onrelease) as keylistener:
         keylistener.join()
 
 # untilKey bind function
@@ -361,7 +361,7 @@ def untilMouse(key):
     global releaseMouse
     releaseMouse = key.lower()
     # collect events until released
-    with pynput.mouse.Listener(on_click=on_click) as mouselistener:
+    with pynput.mouse.Listener(on_click=onclick) as mouselistener:
         mouselistener.join()
 
 # determine if application is a script file or frozen exe

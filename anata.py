@@ -157,7 +157,7 @@ def typingS(textlist):
 
 # pause operation
 #pause/5/
-def pauseS(textlist):
+def pause(textlist):
     # pause
     time.sleep(int(textlist[1]))
 
@@ -167,7 +167,7 @@ def pauseS(textlist):
 
 # end operation
 #end/★.png/accuracy=0.8/
-def endS(textlist):
+def end(textlist):
     # global value
     global flg
     # set option parameter
@@ -204,7 +204,7 @@ def endS(textlist):
 
 # launch app operation
 #run/C:\\appli\aplli.bat/sync=(True|False)/pause=5/
-def runS(textlist):
+def run(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -285,7 +285,7 @@ def fileS(textlist):
 
 # folder operation
 #(folder)/C:\\app/1.txt/pause=5/
-def folderS(textlist):
+def folder(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -407,7 +407,7 @@ def clipS(textlist):
 
 # wait until match operation
 #until/(★.png|string)/out=True/accuracy=0.8/pause=1/
-def untilS(textlist):
+def until(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -530,7 +530,7 @@ def textS(textlist):
     util.soundlog(textlist[0]+'.wav')
 
 #jumpurl/pause=5/
-def jumpurlS(textlist):
+def jumpurl(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -550,7 +550,7 @@ def jumpurlS(textlist):
 
 #date copy operation
 #date/YYYYMMDD/year=1/month=1/day=1/string=firstday/
-def dateS(textlist):
+def date(textlist):
     # set option parameter
     option = util.setoption(textlist)
     year = option.get('year')
@@ -567,7 +567,7 @@ def dateS(textlist):
 
 # launch app operation
 #sound/★.wav/sync=False/pause=5/
-def soundS(textlist):
+def sound(textlist):
     # set option parameter
     option = util.setoption(textlist)
     pause = option.get('pause')
@@ -587,7 +587,7 @@ def soundS(textlist):
 
 # until and click operation
 #meika/1.png/0~3/a~~~
-def meikaS(textlist):
+def meika(textlist):
     # set option parameter
     foruntil = []
     forclick = []
@@ -607,28 +607,22 @@ def meikaS(textlist):
 
 #date copy operation
 #untilKey/Enter/
-def untilKeyS(textlist):
-    # set option parameter
-    #option = util.setoption(textlist)
-    #year = option.get('year')
-    #month = option.get('month')
-    #day = option.get('day')
-    #string = option.get('string')
+def untilkey(textlist):
 
     util.untilKey(textlist[1])
 
     # postprocessing
-    util.infoLog('let go next')
+    util.infoLog('let''s go next')
     #util.soundlog(textlist[0]+'.wav')
 
 #date copy operation
 #untilKey/Enter/
-def untilMouseS(textlist):
+def untilmouse(textlist):
 
     util.untilMouse(textlist[1])
 
     # postprocessing
-    util.infoLog('let go next')
+    util.infoLog('let''s go next')
     #util.soundlog(textlist[0]+'.wav')
 
 # analysis and call operation
@@ -637,151 +631,50 @@ def callS(txt):
     global skillidx
     txtlistlist = util.reptxt(txt)
     util.infoLog(txtlistlist)
+    clickList = ['click','dclick','rclick','move','drag']
+    clickpList = ['clickz','clickp','dclickp','rclickp','movep','dragp']
+    typingList = ['typing','typing2','press','keydown','keyup','hotkey','triplekey']
+    fileList = ['fmove','fcopy','fdelete']
+    clipList = ['copy','paste']
+    scrollList = ['scrollup','scrolldown','scrollleft','scrollright']
+    saveList = ['save','load']
+    textList = ['replace','upper','lower','uppercase','lowercase','extract']
     # analysis first text
     # click
-    if txtlistlist[0] == 'click':
-        clickS(txtlistlist)
-    # dclick
-    if txtlistlist[0] == 'dclick':
-        clickS(txtlistlist)
-    # rclick
-    if txtlistlist[0] == 'rclick':
-        clickS(txtlistlist)
-    # move
-    if txtlistlist[0] == 'move':
-        clickS(txtlistlist)
-    # drag
-    if txtlistlist[0] == 'drag':
+    if txtlistlist[0] in clickList:
         clickS(txtlistlist)
     # clickz
-    if txtlistlist[0] == 'clickz':
+    elif txtlistlist[0] in clickpList:
         clickpS(txtlistlist)
-    # clickp
-    if txtlistlist[0] == 'clickp':
-        clickpS(txtlistlist)
-    # dclickp
-    if txtlistlist[0] == 'dclickp':
-        clickpS(txtlistlist)
-    # rclickp
-    if txtlistlist[0] == 'rclickp':
-        clickpS(txtlistlist)
-    # movep
-    if txtlistlist[0] == 'movep':
-        clickpS(txtlistlist)
-    # dragp
-    if txtlistlist[0] == 'dragp':
-        clickpS(txtlistlist)
-    # typing
-    if txtlistlist[0] == 'typing':
-        typingS(txtlistlist)
-    # typing2
-    if txtlistlist[0] == 'typing2':
-        typingS(txtlistlist)
-    # press
-    if txtlistlist[0] == 'press':
-        typingS(txtlistlist)
-    # keydown
-    if txtlistlist[0] == 'keydown':
-        typingS(txtlistlist)
-    # keyup
-    if txtlistlist[0] == 'keyup':
-        typingS(txtlistlist)
     # hotkey
-    if txtlistlist[0] == 'hotkey':
+    elif txtlistlist[0] in typingList:
         typingS(txtlistlist)
-    # triplekey
-    if txtlistlist[0] == 'triplekey':
-        typingS(txtlistlist)
-    # pause
-    if txtlistlist[0] == 'pause':
-        pauseS(txtlistlist)
-    # end
-    if txtlistlist[0] == 'end':
-        endS(txtlistlist)
-    # run
-    if txtlistlist[0] == 'run':
-        runS(txtlistlist)
     # fmove
-    if txtlistlist[0] == 'fmove':
+    elif txtlistlist[0] in fileList:
         fileS(txtlistlist)
-    # fcopy
-    if txtlistlist[0] == 'fcopy':
-        fileS(txtlistlist)
-    # fdelete
-    if txtlistlist[0] == 'fdelete':
-        fileS(txtlistlist)
-    # folder
-    if txtlistlist[0] == 'folder':
-        folderS(txtlistlist)
     # if
-    if txtlistlist[0] == 'if':
+    elif txtlistlist[0] == 'if':
         ifS(txtlistlist)
     # for
-    if txtlistlist[0] == 'for':
+    elif txtlistlist[0] == 'for':
         forS(txtlistlist)
     # copy
-    if txtlistlist[0] == 'copy':
+    elif txtlistlist[0] in clipList:
         clipS(txtlistlist)
-    # paste
-    if txtlistlist[0] == 'paste':
-        clipS(txtlistlist)
-    # until
-    if txtlistlist[0] == 'until':
-        untilS(txtlistlist)
     # scrollup
-    if txtlistlist[0] == 'scrollup':
-        scrollS(txtlistlist)
-    # scrolldown
-    if txtlistlist[0] == 'scrolldown':
-        scrollS(txtlistlist)
-    # scrollleft
-    if txtlistlist[0] == 'scrollleft':
-        scrollS(txtlistlist)
-    # scrollright
-    if txtlistlist[0] == 'scrollright':
+    elif txtlistlist[0] in scrollList:
         scrollS(txtlistlist)
     # save
-    if txtlistlist[0] == 'save':
-        saveS(txtlistlist)
-    # load
-    if txtlistlist[0] == 'load':
+    elif txtlistlist[0] in saveList:
         saveS(txtlistlist)
     # replace
-    if txtlistlist[0] == 'replace':
+    elif txtlistlist[0] in textList:
         textS(txtlistlist)
-    # upper
-    if txtlistlist[0] == 'upper':
-        textS(txtlistlist)
-    # lowercase
-    if txtlistlist[0] == 'lower':
-        textS(txtlistlist)
-    # uppercase
-    if txtlistlist[0] == 'uppercase':
-        textS(txtlistlist)
-    # lowercase
-    if txtlistlist[0] == 'lowercase':
-        textS(txtlistlist)
-    # extract
-    if txtlistlist[0] == 'extract':
-        textS(txtlistlist)
-    # jumpurl
-    if txtlistlist[0] == 'jumpurl':
-        jumpurlS(txtlistlist)
-    # date
-    if txtlistlist[0] == 'date':
-        dateS(txtlistlist)
-    # sound
-    if txtlistlist[0] == 'sound':
-        soundS(txtlistlist)
-    # meika
-    if txtlistlist[0] == 'meika':
-        meikaS(txtlistlist)
-    # meika
-    if txtlistlist[0] == 'untilkey':
-        untilKeyS(txtlistlist)
-    # meika
-    if txtlistlist[0] == 'untilmouse':
-        untilMouseS(txtlistlist)
+    else:
+        try:
+            eval(txtlistlist[0].replace('__','')+'(txtlistlist)')
+        except NameError:
+            pass
 
 # start skill
 def startS(skill):
