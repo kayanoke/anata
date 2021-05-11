@@ -602,7 +602,7 @@ def meika(textlist):
             foruntil.append(text)
             forclick.append(text)
         i += 1
-    untilS(foruntil)
+    until(foruntil)
     clickS(forclick)
 
 #date copy operation
