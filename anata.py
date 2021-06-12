@@ -683,7 +683,8 @@ def startS(skill):
     global txtlist
     global flg
     # read input text and add to list one line by a time
-    with open(skill,mode='r',encoding='utf-8') as f:
+    encoding = util.getencoding(skill)
+    with open(skill,mode='r',encoding=encoding) as f:
         txtlist = f.readlines()
     maxidx = len(txtlist)
     skillidx = 0
@@ -730,7 +731,8 @@ def init():
 
     # set config.ini parameter
     configini = configparser.ConfigParser()
-    configini.read('config.ini',encoding='utf-8')
+    encoding = util.getencoding('config.ini')
+    configini.read('config.ini',encoding=encoding)
     txtpath = configini.get('SKILL','TxtPath')
     savfile = configini.get('SKILL','SavFile')
 

@@ -23,6 +23,8 @@ import logging
 import logging.config
 # key & mouse bind
 import pynput
+# detect encoding
+import chardet
 
 # set option parameter
 def setoption(textlist):
@@ -364,6 +366,16 @@ def untilMouse(key):
     with pynput.mouse.Listener(on_click=onclick) as mouselistener:
         mouselistener.join()
 
+# detect file encoding
+def getencoding(file):
+    with open(file,mode='rb') as f:
+        b = f.read()
+    enc = chardet.detect(b)
+    if enc['confidence'] < 0.3:
+        return 'utf-8'
+    return enc['encoding']
+
+
 # determine if application is a script file or frozen exe
 if getattr(sys, 'frozen', False):
     applicationpath = os.path.dirname(sys.executable)
@@ -381,7 +393,8 @@ logger = logging.getLogger()
 
 # set config.ini parameter
 configini = configparser.ConfigParser()
-configini.read('config.ini',encoding='utf-8')
+encoding = getencoding('config.ini')
+configini.read('config.ini',encoding=encoding)
 
 rootttl = configini.get('MAIN','rootTtl')
 iconsiz = int(configini.get('MAIN','IconSiz'))
@@ -411,3 +424,4 @@ dradura = float(configini.get('SKILL','DraDura'))
 intervl = float(configini.get('SKILL','Intervl'))
 uppcase = configini.get('SKILL','UppCase')
 lowcase = configini.get('SKILL','LowCase')
+getencoding('C:/Users/ebifr/OneDrive/py/anata/log.txt')
